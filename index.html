@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#007030">
+  <meta name="description" content="LSEC San Agustín: plataforma educativa para acercarnos a la Lengua de Señas Ecuatoriana.">
+  <title>LSEC San Agustín | Aprendemos con las manos</title>
+  <link rel="icon" href="assets/images/logo-san-agustin.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="theme-san-agustin.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" data-page="inicio" aria-label="LSEC San Agustín, inicio">
+        <img src="assets/images/logo-san-agustin.png" alt="Escudo de la Unidad Educativa San Agustín" class="brand-mark">
+        <span><strong>LSEC</strong><small>SAN AGUSTÍN</small></span>
+      </a>
+      <div class="side-label">PLATAFORMA EDUCATIVA</div>
+      <nav class="main-nav" aria-label="Navegación principal">
+        <button class="nav-link active" data-page="inicio"><span class="nav-icon">⌂</span> Inicio</button>
+        <button class="nav-link" data-page="alfabeto"><span class="nav-icon">A</span> Abecedario</button>
+        <button class="nav-link" data-page="videoteca"><span class="nav-icon">▷</span> Videoteca</button>
+        <button class="nav-link" data-page="teoria"><span class="nav-icon">▤</span> Aprende LSEC</button>
+        <button class="nav-link" data-page="actividades"><span class="nav-icon">✳</span> Actividades</button>
+        <button class="nav-link" data-page="cultura"><span class="nav-icon">♡</span> Cultura e inclusión</button>
+        <button class="nav-link" data-page="proyecto"><span class="nav-icon">ⓘ</span> El proyecto</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="inclusion-mini"><span class="mini-spark">✦</span><strong>Aprender nos acerca.</strong><p>La comunicación es un puente que construimos entre todos.</p></div>
+        <span class="side-foot">SAN AGUSTÍN · ECUADOR</span>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Abrir menú">☰</button>
+        <div class="breadcrumb"><span>Plataforma</span><b>/</b><strong id="pageCrumb">Inicio</strong></div>
+        <div class="top-actions">
+          <label class="search-box"><span>⌕</span><input id="globalSearch" type="search" placeholder="Buscar una palabra o tema..." aria-label="Buscar"></label>
+          <button class="teacher-btn" id="teacherMode" title="Modo presentación para docentes">▣ <span>Modo clase</span></button>
+        </div>
+      </header>
+      <div id="app" class="page-content" tabindex="-1">
+        <section class="panel" style="margin:30px auto;max-width:760px">
+          <div class="eyebrow">LSEC SAN AGUSTÍN</div>
+          <h1 style="font-size:34px">Cargando la plataforma…</h1>
+          <p class="lead">Si este mensaje permanece, revisa que <strong>script.js</strong> esté en la misma carpeta que <strong>index.html</strong> y que la carpeta <strong>assets</strong> esté junto a ellos.</p>
+          <p style="font-size:12px;color:#718078">También puedes abrir la consola del navegador con F12 y revisar los errores en rojo.</p>
+        </section>
+      </div>
+      <footer class="footer"><span>© 2026 LSEC San Agustín</span><span>Aprendizaje · Respeto · Inclusión</span></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>
+    window.addEventListener("error", function (event) {
+      const mount = document.getElementById("app");
+      if (!mount) return;
+      mount.innerHTML = '<section class="panel" style="margin:30px auto;max-width:760px;border-color:#e5b6b6"><div class="eyebrow" style="color:#a83232">ERROR DE CARGA</div><h2>No se pudo mostrar el contenido</h2><p class="lead">El navegador encontró un error en JavaScript. Comprueba que descargaste y extrajiste la carpeta completa, y que index.html, script.js, styles.css y assets están juntos.</p><div class="notice">Detalle técnico: ' + String(event.message || "Error desconocido") + (event.filename ? " · " + event.filename.split("/").pop() : "") + (event.lineno ? " · línea " + event.lineno : "") + '</div><p style="font-size:12px;color:#718078;margin-top:12px">Si el problema continúa, envía una captura de la consola (F12 → Console).</p></section>';
+    });
+    window.addEventListener("unhandledrejection", function (event) {
+      const mount = document.getElementById("app");
+      if (mount) mount.innerHTML = '<section class="panel"><h2>Error al cargar un recurso</h2><p class="lead">' + String(event.reason || "Promesa rechazada") + '</p></section>';
+    });
+  </script>
+  <script src="script.js"></script>
+  <script src="decor.js"></script>
+</body>
+</html>
