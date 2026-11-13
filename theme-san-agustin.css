@@ -471,3 +471,40 @@ body.presentation .teacher-btn{background:var(--sa-gold-soft);border-color:var(-
 @media print{.sa-scrim{display:none!important}.hero{background:#fff!important;color:#000!important;box-shadow:none!important}.hero h1,.hero .lead{color:#000!important;text-shadow:none!important}}
 @media(max-width:900px){.hero-art{max-width:460px;width:100%;margin-inline:auto}}
 .teacher-btn{white-space:nowrap}
+
+/* ==========================================================================
+   AJUSTE · Bloque del escudo (recuadro) y espacio inferior del menú lateral
+   ========================================================================== */
+
+/* Recuadro compacto que agrupa escudo + nombre */
+.brand{
+  gap:11px;
+  padding:9px 16px 9px 9px;
+  margin:2px 0 18px;
+  background:linear-gradient(150deg,#ffffff 0%,var(--sa-gold-soft) 130%);
+  border:1px solid #ecdcae;
+  border-radius:20px;
+  box-shadow:0 8px 20px rgba(0,71,31,.07),inset 0 0 0 1px #fff;
+  transition:box-shadow .25s,border-color .25s;
+}
+.brand:hover{border-color:var(--sa-gold);box-shadow:0 12px 24px rgba(0,71,31,.13),inset 0 0 0 1px #fff}
+
+/* Escudo: sigue grande y con su marco, pero un poco más pequeño que antes */
+.brand-mark{width:62px;height:70px;flex:0 0 62px;padding:6px;border-radius:17px;border-width:2px}
+
+/* Texto: flexible, con aire a la derecha; si la letra del dispositivo es más ancha, baja de línea en vez de tocar el borde */
+.brand-text{display:flex;flex-direction:column;flex:1 1 auto;min-width:0}
+.brand-text strong{font-size:20px;letter-spacing:1.6px;line-height:1}
+.brand small{
+  display:flex;flex-direction:column;gap:1px;margin-top:7px;padding-top:7px;position:relative;
+  font-size:8px;letter-spacing:1px;line-height:1.25;font-weight:800
+}
+.brand small:before{content:"";position:absolute;left:0;top:0;width:30px;height:3px;border-radius:3px;background:var(--sa-tricolor)}
+.brand small span{display:block;white-space:normal;overflow-wrap:anywhere}
+.brand small span:first-child{color:var(--sa-green)}
+.brand small span:last-child{color:var(--sa-red);font-size:9.5px;letter-spacing:1.2px}
+
+/* Espacio de seguridad: el último botón del menú (activo) no se pega al recuadro inferior */
+.sidebar-bottom{padding-top:26px}
+.main-nav{padding-bottom:4px}
+@media(prefers-reduced-motion:reduce){.brand{transition:none}}

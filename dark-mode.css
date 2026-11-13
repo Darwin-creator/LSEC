@@ -1,0 +1,225 @@
+/* ==========================================================================
+   MODO OSCURO · LSEC San Agustín
+   --------------------------------------------------------------------------
+   Esta hoja es ADICIONAL: no modifica styles.css ni theme-san-agustin.css.
+   Solo entra en acción cuando <html> tiene data-theme="dark" (lo controla
+   dark-mode.js con el botón de la barra superior). En modo claro el sitio
+   se ve exactamente igual que antes.
+
+   - Las imágenes NO se tocan: las láminas del abecedario (fondo blanco)
+     se muestran sobre una "placa" clara para que se vean tal cual.
+   - Para quitar el modo oscuro: elimina las líneas de dark-mode.css y
+     dark-mode.js en index.html, y el botón con id="themeToggle".
+   ========================================================================== */
+
+/* ---------- Botón de cambio de tema (modo claro) ---------- */
+.theme-toggle{
+  background:#fff;border:1px solid #d7e4da;border-radius:10px;padding:9px 13px;
+  color:var(--sa-green);font-size:11px;font-weight:750;white-space:nowrap;
+  display:inline-flex;align-items:center;gap:7px;transition:.2s
+}
+.theme-toggle:hover{background:var(--sa-green);color:#fff;border-color:var(--sa-green)}
+.theme-toggle-icon{font-size:14px;line-height:1;display:inline-block;transition:transform .35s}
+.theme-toggle:hover .theme-toggle-icon{transform:rotate(-18deg)}
+@media(max-width:760px){.theme-toggle-label{display:none}.theme-toggle{padding:9px 11px}}
+@media(pointer:coarse){.theme-toggle{min-height:44px}}
+@media print{.theme-toggle{display:none!important}}
+@media(prefers-reduced-motion:reduce){.theme-toggle,.theme-toggle-icon{transition:none}}
+
+/* Transición suave solo durante el cambio (la agrega/quita dark-mode.js) */
+@media(prefers-reduced-motion:no-preference){
+  html.theme-fade,html.theme-fade *,html.theme-fade *::before,html.theme-fade *::after{
+    transition:background-color .35s ease,color .35s ease,border-color .35s ease,box-shadow .35s ease,fill .35s ease!important
+  }
+}
+
+/* ---------- Variables del modo oscuro ---------- */
+html[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#0e1511;
+  --ink:#e8f1ea;
+  --muted:#a2b5a8;
+  --line:#2b3a31;
+  --shadow:0 14px 34px rgba(0,0,0,.5);
+  --green-3:#1b3326;
+  --sa-green-soft:#1b3326;
+  --sa-gold-soft:#2b2412;
+
+  --dk-surface:#16201a;
+  --dk-surface-2:#1c2822;
+  --dk-border:#2b3a31;
+  --dk-border-2:#35493c;
+  --dk-text:#e8f1ea;
+  --dk-text-soft:#b9cbbf;
+  --dk-accent:#5fd08a;      /* verde legible sobre fondo oscuro */
+  --dk-red:#ff7b8c;         /* rojo legible sobre fondo oscuro */
+  --dk-gold-text:#f3cf7e;
+  --dk-gold-line:#4a3d18;
+}
+
+/* Todo lo siguiente solo aplica en pantalla (al imprimir se usa el diseño claro) */
+@media screen{
+
+/* ---------- Base ---------- */
+:where(html[data-theme="dark"]) body{
+  background:
+    radial-gradient(circle at 100% 0,rgba(224,163,26,.07),transparent 32%),
+    radial-gradient(circle at 0 100%,rgba(0,112,48,.14),transparent 34%),
+    var(--paper);
+}
+:where(html[data-theme="dark"]) h1,:where(html[data-theme="dark"]) h2{color:#eaf4ee}
+:where(html[data-theme="dark"]) .lead{color:var(--dk-text-soft)}
+:where(html[data-theme="dark"]) ::placeholder{color:#7e9385;opacity:1}
+:where(html[data-theme="dark"]) .btn:disabled{opacity:.45;cursor:not-allowed}
+
+/* ---------- Barra lateral ---------- */
+:where(html[data-theme="dark"]) .sidebar{
+  background:linear-gradient(180deg,#121b16 0%,#101812 55%,#0f1712 100%);
+  border-right-color:#24342a;
+  box-shadow:6px 0 30px rgba(0,0,0,.35);
+}
+:where(html[data-theme="dark"]) .brand,:where(html[data-theme="dark"]) .brand strong{color:var(--dk-accent)}
+:where(html[data-theme="dark"]) .brand small{color:var(--dk-red)}
+:where(html[data-theme="dark"]) .brand-mark{background:linear-gradient(160deg,#ffffff 0%,#f7ecd2 100%)} /* placa clara: el escudo no se modifica */
+:where(html[data-theme="dark"]) .side-label:after{background:linear-gradient(90deg,rgba(224,163,26,.4),transparent)}
+:where(html[data-theme="dark"]) .nav-link{color:#b6c8bc}
+:where(html[data-theme="dark"]) .nav-link:not(.active):hover{background:var(--sa-green-soft);color:var(--dk-accent)}
+:where(html[data-theme="dark"]) .nav-link .nav-icon{background:var(--sa-green-soft);color:var(--dk-accent)}
+:where(html[data-theme="dark"]) .inclusion-mini{
+  background:linear-gradient(150deg,#2b2412,#16201a);
+  border-color:var(--dk-gold-line);border-top-color:var(--sa-gold);
+}
+:where(html[data-theme="dark"]) .inclusion-mini strong{color:var(--dk-text)}
+:where(html[data-theme="dark"]) .side-foot{color:var(--dk-accent)}
+
+/* ---------- Recuadro del escudo (ajuste) ---------- */
+:where(html[data-theme="dark"]) .brand{
+  background:linear-gradient(150deg,#16221b 0%,#241f10 140%);
+  border-color:var(--dk-gold-line);
+  box-shadow:0 10px 24px rgba(0,0,0,.35),inset 0 0 0 1px rgba(255,255,255,.03);
+}
+:where(html[data-theme="dark"]) .brand:hover{border-color:var(--sa-gold);box-shadow:0 14px 28px rgba(0,0,0,.45)}
+:where(html[data-theme="dark"]) .brand small span:first-child{color:var(--dk-accent)}
+:where(html[data-theme="dark"]) .brand small span:last-child{color:var(--dk-red)}
+
+/* ---------- Barra superior ---------- */
+:where(html[data-theme="dark"]) .topbar{background:rgba(14,21,17,.92)}
+:where(html[data-theme="dark"]) .breadcrumb{color:#8fa497}
+:where(html[data-theme="dark"]) .breadcrumb strong{color:var(--dk-text)}
+:where(html[data-theme="dark"]) .search-box{background:#121b16;border-color:var(--dk-border-2);color:#8fa497}
+:where(html[data-theme="dark"]) .search-box input{background:transparent;color:var(--dk-text)}
+:where(html[data-theme="dark"]) .teacher-btn,:where(html[data-theme="dark"]) .theme-toggle{background:var(--dk-surface);border-color:var(--dk-border-2);color:var(--dk-accent)}
+:where(html[data-theme="dark"]) .teacher-btn:hover,:where(html[data-theme="dark"]) .theme-toggle:hover{background:var(--sa-green);color:#fff;border-color:var(--sa-green)}
+:where(html[data-theme="dark"]) body.presentation .teacher-btn{background:var(--sa-gold-soft);border-color:var(--sa-gold);color:var(--dk-gold-text)}
+:where(html[data-theme="dark"]) .mobile-menu{background:var(--sa-green-soft);color:var(--dk-accent)}
+:where(html[data-theme="dark"]) .mobile-menu:hover{background:var(--sa-green);color:#fff}
+
+/* ---------- Etiquetas y títulos ---------- */
+:where(html[data-theme="dark"]) .eyebrow{color:var(--dk-red)}
+:where(html[data-theme="dark"]) .text-link{color:var(--dk-red)}
+:where(html[data-theme="dark"]) .pill{background:var(--sa-gold-soft);color:var(--dk-gold-text);border-color:var(--dk-gold-line)}
+
+/* ---------- Botones ---------- */
+:where(html[data-theme="dark"]) .btn-light{background:var(--dk-surface-2);color:var(--dk-accent);border-color:var(--dk-border-2)}
+:where(html[data-theme="dark"]) .btn-light:hover{background:var(--sa-gold-soft);border-color:var(--sa-gold);color:var(--dk-gold-text)}
+:where(html[data-theme="dark"]) .btn-outline{color:var(--dk-accent);border-color:var(--dk-border-2)}
+/* El botón claro sobre el banner verde conserva su aspecto original */
+:where(html[data-theme="dark"]) .culture-banner .btn-light{background:#fff;color:var(--sa-green);border-color:#dce9df}
+:where(html[data-theme="dark"]) .culture-banner .btn-light:hover{background:#fbf1d6;border-color:var(--sa-gold);color:var(--sa-green)}
+
+/* ---------- Tarjetas y paneles ---------- */
+:where(html[data-theme="dark"]) .stat-card,:where(html[data-theme="dark"]) .feature-card,:where(html[data-theme="dark"]) .panel,:where(html[data-theme="dark"]) .theory-card,:where(html[data-theme="dark"]) .video-card,:where(html[data-theme="dark"]) .dialogue,
+:where(html[data-theme="dark"]) .activity-box,:where(html[data-theme="dark"]) .resource,:where(html[data-theme="dark"]) .empty-state,:where(html[data-theme="dark"]) .culture-topic,:where(html[data-theme="dark"]) .activity-learning-card,
+:where(html[data-theme="dark"]) .timeline article,:where(html[data-theme="dark"]) .content-modal{background:var(--dk-surface)}
+
+:where(html[data-theme="dark"]) .panel,:where(html[data-theme="dark"]) .theory-card,:where(html[data-theme="dark"]) .video-card,:where(html[data-theme="dark"]) .dialogue,:where(html[data-theme="dark"]) .activity-box,:where(html[data-theme="dark"]) .resource,
+:where(html[data-theme="dark"]) .stat-card,:where(html[data-theme="dark"]) .feature-card,:where(html[data-theme="dark"]) .activity-learning-card,:where(html[data-theme="dark"]) .culture-topic,:where(html[data-theme="dark"]) .content-modal{border-color:var(--dk-border)}
+/* se restauran los filos de color que van arriba en cada tarjeta */
+:where(html[data-theme="dark"]) .stat-card{border-bottom-color:var(--sa-gold)}
+:where(html[data-theme="dark"]) .stat-card:nth-child(2){border-bottom-color:var(--sa-red)}
+:where(html[data-theme="dark"]) .stat-card:nth-child(3){border-bottom-color:var(--sa-green)}
+:where(html[data-theme="dark"]) .theory-card{border-top-color:var(--sa-green)}
+:where(html[data-theme="dark"]) .theory-card:nth-child(3n+2){border-top-color:var(--sa-red)}
+:where(html[data-theme="dark"]) .theory-card:nth-child(3n){border-top-color:var(--sa-gold)}
+:where(html[data-theme="dark"]) .activity-box{border-top-color:var(--sa-gold)}
+:where(html[data-theme="dark"]) .activity-learning-card,:where(html[data-theme="dark"]) .culture-topic{border-top-color:var(--sa-green)}
+:where(html[data-theme="dark"]) .activity-learning-card:nth-child(even),:where(html[data-theme="dark"]) .culture-topic:nth-child(even){border-top-color:var(--sa-red)}
+:where(html[data-theme="dark"]) .activity-learning-card:nth-child(3n),:where(html[data-theme="dark"]) .culture-topic:nth-child(3n){border-top-color:var(--sa-gold)}
+:where(html[data-theme="dark"]) .content-modal{border-top-color:var(--sa-green)}
+:where(html[data-theme="dark"]) .feature-card:hover{border-color:#3d5c48}
+:where(html[data-theme="dark"]) .video-card:hover{border-color:#3d5c48}
+:where(html[data-theme="dark"]) .theory-button:hover,:where(html[data-theme="dark"]) .resource:hover{border-color:var(--sa-gold)}
+
+:where(html[data-theme="dark"]) .empty-state{border-color:#3a4d41;color:var(--muted)}
+:where(html[data-theme="dark"]) .timeline article{border-top-color:var(--dk-border);border-right-color:var(--dk-border);border-bottom-color:var(--dk-border)}
+:where(html[data-theme="dark"]) .timeline strong{color:var(--dk-accent)}
+
+:where(html[data-theme="dark"]) .stat-card strong{color:var(--dk-accent)}
+:where(html[data-theme="dark"]) .feature-icon{background:linear-gradient(145deg,var(--sa-green-soft),#14201a);color:var(--dk-accent);border-color:#2c4a38}
+:where(html[data-theme="dark"]) .feature-card h3,:where(html[data-theme="dark"]) .theory-card h3,
+:where(html[data-theme="dark"]) .culture-topic h3,:where(html[data-theme="dark"]) .activity-learning-card h3,:where(html[data-theme="dark"]) .culture-topic h4,
+:where(html[data-theme="dark"]) .content-modal h2{color:#eaf4ee}
+:where(html[data-theme="dark"]) .theory-card p,:where(html[data-theme="dark"]) .theory-card li,:where(html[data-theme="dark"]) .dialogue p,
+:where(html[data-theme="dark"]) .culture-topic>p,:where(html[data-theme="dark"]) .activity-learning-card>p,
+:where(html[data-theme="dark"]) .culture-topic details p,:where(html[data-theme="dark"]) .activity-learning-card details p,
+:where(html[data-theme="dark"]) .culture-topic ul,:where(html[data-theme="dark"]) .reflection-prompts,:where(html[data-theme="dark"]) .class-prompts,:where(html[data-theme="dark"]) .modal-description{color:var(--dk-text-soft)}
+:where(html[data-theme="dark"]) .theory-card .num,:where(html[data-theme="dark"]) .theory-more,:where(html[data-theme="dark"]) .dialogue-tag,:where(html[data-theme="dark"]) .question-count,:where(html[data-theme="dark"]) .activity-kicker{color:var(--dk-red)}
+:where(html[data-theme="dark"]) .resource a,:where(html[data-theme="dark"]) .video-info a{color:var(--dk-red)}
+:where(html[data-theme="dark"]) .culture-topic-icon{background:var(--sa-gold-soft);color:var(--dk-red)}
+:where(html[data-theme="dark"]) .culture-topic details,:where(html[data-theme="dark"]) .activity-learning-card details{border-top-color:var(--dk-border)}
+:where(html[data-theme="dark"]) .culture-topic summary,:where(html[data-theme="dark"]) .activity-learning-card summary{color:var(--dk-accent)}
+:where(html[data-theme="dark"]) .culture-topic summary:after,:where(html[data-theme="dark"]) .activity-learning-card summary:after{color:var(--dk-red)}
+:where(html[data-theme="dark"]) .concept-match-list details{border-color:var(--dk-border)}
+:where(html[data-theme="dark"]) .concept-match-list>div[style]{background:var(--dk-surface-2)!important}  /* fondo escrito en línea en script.js */
+:where(html[data-theme="dark"]) .commitment-item{border-bottom-color:var(--dk-border);color:var(--dk-text-soft)}
+:where(html[data-theme="dark"]) .commitment-note{color:#8fa497!important}
+
+/* ---------- Abecedario ---------- */
+:where(html[data-theme="dark"]) .letter-btn{background:var(--dk-surface-2);border-color:var(--dk-border-2);color:#cfe0d4}
+:where(html[data-theme="dark"]) .letter-tile img{mix-blend-mode:normal;background:#fff}  /* la lámina se ve igual: va sobre fondo blanco */
+:where(html[data-theme="dark"]) .letter-tile.selected,:where(html[data-theme="dark"]) .letter-tile.selected:hover{background:var(--dk-surface-2);color:var(--dk-text)}
+:where(html[data-theme="dark"]) .letter-detail{background:linear-gradient(150deg,#241f10,#16201a 65%)}
+:where(html[data-theme="dark"]) .letter-detail{border-top-color:var(--sa-green)}
+:where(html[data-theme="dark"]) .sign-image-wrap{border-color:var(--dk-border-2)}
+:where(html[data-theme="dark"]) .letter-detail .sign-image-wrap:hover{border-color:#3d5c48}
+:where(html[data-theme="dark"]) .big-letter{background:var(--dk-surface-2);color:var(--dk-red);border-color:var(--dk-gold-line)}
+:where(html[data-theme="dark"]) .visual-placeholder{background:var(--dk-surface-2);border-color:var(--dk-gold-line);color:var(--muted)}
+:where(html[data-theme="dark"]) .notice{background:var(--sa-gold-soft);border-color:var(--dk-gold-line);color:var(--dk-gold-text)}
+
+/* ---------- Videoteca ---------- */
+:where(html[data-theme="dark"]) .video-tools .search-input{background:#121b16;border-color:var(--dk-border-2);color:var(--dk-text)}
+:where(html[data-theme="dark"]) .video-external-fallback{background:var(--dk-surface-2);color:var(--dk-accent)}
+:where(html[data-theme="dark"]) .video-resource-art{background:linear-gradient(130deg,#16281e,#2a2512);color:var(--dk-accent)}
+:where(html[data-theme="dark"]) .video-resource-art span{background:var(--dk-surface-2);box-shadow:0 5px 18px rgba(0,0,0,.35)}
+:where(html[data-theme="dark"]) .resource-preview{background:linear-gradient(135deg,#16281e,#2a2512)}
+:where(html[data-theme="dark"]) .resource-preview-content{
+  color:var(--dk-accent);
+  background:radial-gradient(circle at 20% 15%,rgba(255,255,255,.07),transparent 38%),linear-gradient(135deg,#17291f,#2a2514);
+}
+:where(html[data-theme="dark"]) .resource-preview-icon{background:var(--dk-surface-2);color:var(--dk-accent);box-shadow:0 5px 18px rgba(0,0,0,.35)}
+:where(html[data-theme="dark"]) .resource-preview-1 .resource-preview-content{background:radial-gradient(circle at 80% 15%,rgba(255,255,255,.07),transparent 35%),linear-gradient(135deg,#16222c,#2a2418)}
+:where(html[data-theme="dark"]) .resource-preview-2 .resource-preview-content{background:radial-gradient(circle at 15% 80%,rgba(255,255,255,.07),transparent 35%),linear-gradient(135deg,#17271b,#221f33)}
+:where(html[data-theme="dark"]) .resource-preview-3 .resource-preview-content{background:radial-gradient(circle at 80% 80%,rgba(255,255,255,.07),transparent 35%),linear-gradient(135deg,#2a2418,#15282b)}
+:where(html[data-theme="dark"]) .resource-preview-4 .resource-preview-content{background:radial-gradient(circle at 15% 15%,rgba(255,255,255,.07),transparent 35%),linear-gradient(135deg,#251f2e,#17291f)}
+:where(html[data-theme="dark"]) .resource-preview-5 .resource-preview-content{background:radial-gradient(circle at 80% 15%,rgba(255,255,255,.07),transparent 35%),linear-gradient(135deg,#2b2318,#16222d)}
+:where(html[data-theme="dark"]) .word-visual small{background:var(--dk-surface-2);color:var(--muted)}
+
+/* ---------- Actividades ---------- */
+:where(html[data-theme="dark"]) .answer-btn{background:var(--dk-surface);color:#cfe0d4;border-color:var(--dk-border-2)}
+:where(html[data-theme="dark"]) .answer-btn.wrong{border-color:#d4566b;background:#361a20}
+:where(html[data-theme="dark"]) .progress{background:#26352c}
+:where(html[data-theme="dark"]) .mini-feedback{background:var(--dk-surface-2);color:var(--muted)}
+:where(html[data-theme="dark"]) .mini-feedback.is-correct{background:var(--sa-green-soft);color:var(--dk-accent)}
+:where(html[data-theme="dark"]) .mini-feedback.is-incorrect{background:#3a1c1a;color:#ffb3a3}
+
+/* ---------- Ventanas ---------- */
+:where(html[data-theme="dark"]) .modal-close{background:var(--sa-green-soft);color:var(--dk-accent)}
+:where(html[data-theme="dark"]) .modal-close:hover{background:var(--sa-red);color:#fff}
+
+/* ---------- Pie de página ---------- */
+:where(html[data-theme="dark"]) .footer{background:#101812;color:var(--muted)}
+:where(html[data-theme="dark"]) .sa-footer-mid{color:var(--dk-accent)}
+:where(html[data-theme="dark"]) .sa-footer-mid a{color:var(--dk-red)}
+:where(html[data-theme="dark"]) .sa-footer-mid a:hover{color:var(--dk-accent)}
+
+}/* fin @media screen */

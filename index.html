@@ -12,13 +12,15 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="theme-san-agustin.css">
+  <link rel="stylesheet" href="dark-mode.css">
+  <script src="dark-mode.js"></script>
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar" id="sidebar">
-      <a class="brand" href="#" data-page="inicio" aria-label="LSEC San Agustín, inicio">
+      <a class="brand" href="#" data-page="inicio" aria-label="LSEC Unidad Educativa San Agustín, inicio">
         <img src="assets/images/logo-san-agustin.png" alt="Escudo de la Unidad Educativa San Agustín" class="brand-mark">
-        <span><strong>LSEC</strong><small>SAN AGUSTÍN</small></span>
+        <span class="brand-text"><strong>LSEC</strong><small><span>UNIDAD EDUCATIVA</span><span>SAN AGUSTÍN</span></small></span>
       </a>
       <div class="side-label">PLATAFORMA EDUCATIVA</div>
       <nav class="main-nav" aria-label="Navegación principal">
@@ -42,6 +44,7 @@
         <div class="breadcrumb"><span>Plataforma</span><b>/</b><strong id="pageCrumb">Inicio</strong></div>
         <div class="top-actions">
           <label class="search-box"><span>⌕</span><input id="globalSearch" type="search" placeholder="Buscar una palabra o tema..." aria-label="Buscar"></label>
+          <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Activar modo oscuro" title="Cambiar a modo oscuro"><span class="theme-toggle-icon" aria-hidden="true">☾</span> <span class="theme-toggle-label">Modo oscuro</span></button>
           <button class="teacher-btn" id="teacherMode" title="Modo presentación para docentes">▣ <span>Modo clase</span></button>
         </div>
       </header>
