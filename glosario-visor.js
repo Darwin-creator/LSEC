@@ -19,7 +19,7 @@
   var BASE = "assets/documentos/paginas/";
   var PDF = "assets/documentos/Compilacion-Final-Interactivo.pdf";
   var TOTAL = 50;
-  var ZOOMS = [1, 1.5, 2, 2.5, 3];
+  var ZOOMS = [1, 1.5, 2, 2.5, 3, 3.5, 4];
 
   // Páginas = número de página del PDF (1–50).
   var SECTIONS = [
