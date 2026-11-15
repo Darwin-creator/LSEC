@@ -140,6 +140,7 @@ function home(){return `
  ${feature("A","Abecedario","Conoce el alfabeto manual y consulta recursos audiovisuales.","alfabeto")}
  ${feature("▷","Videoteca","Observa tutoriales de LSEC recopilados en recursos educativos.","videoteca")}
  ${feature("▤","Aprende LSEC","Descubre qué es la lengua, sus elementos y su uso.","teoria")}
+ ${feature("▧","Glosario LSEC","Consulta el glosario visual organizado por secciones.","glosario")}
  ${feature("✳","Actividades","Comprueba lo aprendido con preguntas y retos breves.","actividades")}
  ${feature("♡","Cultura e inclusión","Conoce la importancia de la comunidad y la accesibilidad.","cultura")}
  ${feature("ⓘ","El proyecto","Conoce el propósito educativo de LSEC San Agustín.","proyecto")}
