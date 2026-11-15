@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # LSEC San Agustín
 
 Plataforma educativa construida con HTML, CSS y JavaScript puro. No requiere React, Node.js, npm, cuentas ni base de datos.
@@ -91,6 +90,7 @@ Actualización del escudo: `assets/images/logo-san-agustin.png` es ahora un PNG 
 - Cultura e inclusión se organiza en seis temas ampliables: cultura e identidad sorda, derechos e igualdad, comunicación respetuosa, inclusión en San Agustín, historias y referentes, y compromiso con la inclusión. Cada tema incorpora explicaciones y preguntas para conversar en clase.
 - Actividades conserva el cuestionario original y añade retos interactivos de mitos y realidades, situaciones cotidianas, conceptos, reflexión y compromisos personales.
 - No se añadieron nuevas secciones al menú ni se modificaron los módulos de Aprende LSEC, el proyecto, el abecedario o la videoteca.
-=======
-# LSEC
->>>>>>> 51f3eb6f89bcdbc65608a8ae36c484a7a4a5606a
+## Glosario LSEC (visor por secciones)
+- Las 50 páginas del PDF están convertidas a imágenes en `assets/documentos/paginas/` (`pNN.webp` grande, `tNN.webp` miniatura), así el visor funciona igual en PC, tablet y celular.
+- `glosario-visor.js` / `glosario-visor.css`: secciones, lector con botón «Siguiente sección» y «Menú principal», zoom, pantalla completa y vista previa de todo el documento.
+- La numeración es la del PDF (1–50). Para cambiar las secciones edita la lista `SECTIONS` al inicio de `glosario-visor.js`.
