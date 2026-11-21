@@ -174,7 +174,9 @@
         h += '<button type="button" class="glo-strip-item' + (n === state.page ? " active" : "") + '" data-glo="page" data-gpage="' + n + '" aria-label="Página ' + n + '">' +
           '<img src="' + thumb(n) + '" alt="" loading="lazy" decoding="async"><span>' + n + '</span></button>';
       }
+      var prevLeft = el.strip.scrollLeft;
       el.strip.innerHTML = h;
+      el.strip.scrollLeft = prevLeft;
       var act = el.strip.querySelector(".active");
       if (act && el.strip.scrollTo) {
         el.strip.scrollTo({ left: act.offsetLeft - el.strip.clientWidth / 2 + act.clientWidth / 2, behavior: "smooth" });
