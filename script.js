@@ -134,13 +134,12 @@ function go(page){currentPage=page;document.querySelectorAll(".nav-link").forEac
 function pageIntro(kicker,title,desc,tag=""){return `<div class="page-intro"><div><div class="eyebrow">${kicker}</div><h1>${title}</h1><p class="lead">${desc}</p></div>${tag?`<span class="pill">${tag}</span>`:""}</div>`}
 function home(){return `
 <section class="hero"><div class="hero-copy"><div class="eyebrow">UNA ESCUELA MÁS INCLUSIVA</div><h1>Aprendemos<br>con las <span>manos.</span></h1><p class="lead">Un espacio para descubrir la Lengua de Señas Ecuatoriana, acercarnos a su cultura y construir una comunicación más inclusiva en nuestra comunidad educativa.</p><div class="button-row"><button class="btn btn-primary" data-go="alfabeto">Explorar el abecedario <b>→</b></button><button class="btn btn-light" data-go="teoria">Comenzar a aprender</button></div></div><div class="hero-art"><img src="assets/images/hero-illustration.svg" alt="Ilustración de dos estudiantes comunicándose con gestos amistosos"></div></section>
-<div class="stats-row"><div class="stat-card"><strong>8</strong><span>Secciones para aprender y practicar</span></div><div class="stat-card"><strong>100%</strong><span>Enfoque educativo e inclusivo</span></div><div class="stat-card"><strong>LSEC</strong><span>Contenido centrado en Ecuador</span></div></div>
+<div class="stats-row"><div class="stat-card"><strong>7</strong><span>Secciones para aprender y practicar</span></div><div class="stat-card"><strong>100%</strong><span>Enfoque educativo e inclusivo</span></div><div class="stat-card"><strong>LSEC</strong><span>Contenido centrado en Ecuador</span></div></div>
 <div class="section-head"><div><h2>Explora la plataforma</h2><p>Encuentra una forma divertida de acercarte a la LSEC.</p></div></div>
 <div class="feature-grid">
  ${feature("A","Abecedario","Conoce el alfabeto manual y consulta recursos audiovisuales.","alfabeto")}
  ${feature("▷","Videoteca","Observa tutoriales de LSEC recopilados en recursos educativos.","videoteca")}
  ${feature("▤","Aprende LSEC","Descubre qué es la lengua, sus elementos y su uso.","teoria")}
- ${feature("▧","Glosario LSEC","Consulta el glosario visual organizado por secciones.","glosario")}
  ${feature("✳","Actividades","Comprueba lo aprendido con preguntas y retos breves.","actividades")}
  ${feature("♡","Cultura e inclusión","Conoce la importancia de la comunidad y la accesibilidad.","cultura")}
  ${feature("ⓘ","El proyecto","Conoce el propósito educativo de LSEC San Agustín.","proyecto")}
@@ -240,7 +239,31 @@ function glosarioPage(){
  <div id="gloRoot"></div>`;
 }
 
-function render(){const pages={inicio:home,alfabeto:alphabetPage,videoteca:videoPage,teoria:theoryPage,actividades:activities,cultura,proyecto,glosario:glosarioPage};app.innerHTML=pages[currentPage]();if(currentPage==="glosario"&&window.LSECGlosario)window.LSECGlosario.mount();app.focus({preventScroll:true});}
+/* Actualiza la página "en el sitio": solo cambia lo que de verdad cambió (clases, textos, imágenes distintas).
+   Así, al elegir una letra o responder, los botones NO se destruyen y vuelven a crear (eso causaba el parpadeo). */
+function syncAttrs(a,b){
+ Array.from(a.attributes).forEach(t=>{if(!b.hasAttribute(t.name))a.removeAttribute(t.name)});
+ Array.from(b.attributes).forEach(t=>{if(a.getAttribute(t.name)!==t.value)a.setAttribute(t.name,t.value)});
+}
+function morphChildren(live,next){
+ const l=Array.from(live.childNodes),n=Array.from(next.childNodes),max=Math.max(l.length,n.length);
+ for(let i=0;i<max;i++){
+  const a=l[i],b=n[i];
+  if(!b){a.remove();continue}
+  if(!a){live.appendChild(b);continue}
+  if(a.nodeType!==b.nodeType||a.nodeName!==b.nodeName){live.replaceChild(b,a);continue}
+  if(a.nodeType!==1){if(a.nodeValue!==b.nodeValue)a.nodeValue=b.nodeValue;continue}
+  syncAttrs(a,b);morphChildren(a,b);
+ }
+}
+let lastRenderedPage=null;
+function render(){const pages={inicio:home,alfabeto:alphabetPage,videoteca:videoPage,teoria:theoryPage,actividades:activities,cultura,proyecto,glosario:glosarioPage};
+ const html=pages[currentPage]();
+ const samePage=lastRenderedPage===currentPage&&(currentPage==="alfabeto"||currentPage==="actividades")&&app.firstElementChild;
+ if(samePage){const tmp=document.createElement("div");tmp.innerHTML=html;morphChildren(app,tmp);}
+ else{app.innerHTML=html;if(lastRenderedPage!==currentPage){app.classList.remove("fx-enter");void app.offsetWidth;app.classList.add("fx-enter");}}
+ lastRenderedPage=currentPage;
+ if(currentPage==="glosario"&&window.LSECGlosario)window.LSECGlosario.mount();if(!samePage)app.focus({preventScroll:true});}
 function openModal(title,body,actions=""){let modal=document.getElementById("contentModal");if(!modal){modal=document.createElement("div");modal.id="contentModal";modal.className="modal-backdrop";modal.innerHTML='<section class="content-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="modal-close" aria-label="Cerrar">×</button><div id="modalBody"></div></section>';document.body.appendChild(modal);}modal.querySelector("#modalBody").innerHTML=`<div class="eyebrow">LSEC SAN AGUSTÍN</div><h2 id="modalTitle">${title}</h2>${body}${actions}`;modal.classList.add("show");}
 function closeModal(){document.getElementById("contentModal")?.classList.remove("show")}
 function showTheory(index){

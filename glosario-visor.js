@@ -19,7 +19,7 @@
   var BASE = "assets/documentos/paginas/";
   var PDF = "assets/documentos/Compilacion-Final-Interactivo.pdf";
   var TOTAL = 50;
-  var ZOOMS = [1, 1.5, 2, 2.5, 3, 3.5, 4];
+  var ZOOMS = [1, 1.5, 2, 2.5, 3];
 
   // Páginas = número de página del PDF (1–50).
   var SECTIONS = [
@@ -56,7 +56,7 @@
         '<div class="feature-icon" aria-hidden="true">' + s.icon + '</div>' +
         '<h3>' + s.title + '</h3>' +
         '<p>' + s.desc + '</p>' +
-        '<span class="glo-card-meta">' + (s.id === "glosario" ? s.from + "-" + s.to : range(s) + (s.to > s.from ? " · " + count(s) : "")) + '</span>' +
+        '<span class="glo-card-meta">' + range(s) + (s.to > s.from ? " · " + count(s) : "") + '</span>' +
         '<span class="glo-card-go">Abrir sección →</span></button>';
     }).join("");
 
