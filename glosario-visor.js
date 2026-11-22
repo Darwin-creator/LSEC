@@ -17,7 +17,7 @@
   "use strict";
 
   var BASE = "assets/documentos/paginas/";
-  var PDF = "assets/documentos/Compilacion-Final-Interactivo.pdf";
+  var PDF = "https://www.vicepresidencia.gob.ec/wp-content/uploads/downloads/2013/04/Compilacion-Final-Interactivo.pdf";
   var TOTAL = 50;
   var ZOOMS = [1, 1.5, 2, 2.5, 3];
 
