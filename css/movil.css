@@ -1,0 +1,213 @@
+/* ==========================================================================
+   9 · AJUSTES PARA TELÉFONO Y TABLET
+   Se carga DESPUÉS de styles.css a propósito. Contiene:
+     · Reglas globales para pantallas táctiles (vertical y horizontal).
+     · Distribución del abecedario.
+     · Quita efectos pesados en pantallas táctiles (mejor rendimiento).
+     · Ajustes para pantallas con poca altura (teléfono girado).
+   ========================================================================== */
+
+/* --- Reglas globales para todos los dispositivos --- */
+html {
+  /* Evita que iOS/Android agranden el texto al girar el dispositivo */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+img, svg, video {
+  max-width: 100%;
+}
+body {
+  overflow-x: hidden;
+}
+
+/* La barra del navegador móvil cambia la altura real: se usa dvh cuando existe */
+@supports (height: 100dvh) {
+  .app-shell,
+  .main-area {
+    min-height: 100dvh;
+  }
+}
+
+/* Zonas seguras: el "notch" y las barras del sistema no tapan el contenido al girar el teléfono.
+   Solo en teléfono y tablet; en computadora los valores son 0 y no cambia nada. */
+@media (max-width: 1024px) {
+  body {
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+  }
+  .sidebar {
+    padding-left: calc(16px + env(safe-area-inset-left, 0px));
+  }
+  .footer {
+    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  }
+}
+@media (max-width: 1024px) {
+  .alphabet-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  .letter-detail {
+    position: static;
+    scroll-margin-top: 84px;
+    min-height: 0;
+  }
+  .letter-grid {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 10px;
+  }
+}
+@media (max-width: 900px) {
+  .letter-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+@media (max-width: 760px) {
+  .alphabet-layout {
+    gap: 18px;
+  }
+  .alphabet-layout > .panel {
+    padding: 20px 16px;
+  }
+  .letter-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .letter-tile {
+    min-width: 0;
+  }
+  .letter-detail {
+    padding: 24px 18px;
+  }
+  .letter-detail .sign-image-wrap {
+    width: 100%;
+    max-width: 340px;
+  }
+  .letter-detail .zoom-btn,
+  .letter-detail .button-row .btn {
+    width: 100%;
+    max-width: 340px;
+    justify-content: center;
+  }
+  .letter-detail .letter-controls {
+    width: 100%;
+    max-width: 340px;
+    flex-wrap: nowrap;
+  }
+  .letter-detail .letter-controls .btn {
+    flex: 1 1 0;
+    min-width: 0;
+    padding-inline: 10px;
+    white-space: nowrap;
+  }
+  .letter-detail .button-row {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+@media (max-width: 360px) {
+  .letter-grid {
+    gap: 6px;
+  }
+  .alphabet-layout > .panel {
+    padding: 18px 12px;
+  }
+}
+@media (max-width: 1024px), (pointer: coarse) {
+  .topbar,
+  html:not([data-theme=dark]) .topbar {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background-color: rgba(251, 250, 245, .97);
+  }
+  html[data-theme=dark] .topbar {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background-color: rgba(14, 21, 17, .97);
+  }
+  .sa-scrim,
+  .modal-backdrop {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  html[data-theme=dark] body::before {
+    filter: none;
+    opacity: .7;
+  }
+}
+@media (min-width: 761px) and (max-width: 900px) {
+  .theme-toggle-label,
+  .teacher-btn span {
+    display: none;
+  }
+  .theme-toggle,
+  .teacher-btn {
+    padding-inline: 12px;
+  }
+  .search-box {
+    width: min(230px, 32vw);
+  }
+}
+.breadcrumb {
+  min-width: 0;
+}
+.breadcrumb strong {
+  white-space: nowrap;
+}
+
+/* --- Dedos cómodos: botones y enlaces de al menos 44 px en pantallas táctiles --- */
+@media (pointer: coarse) and (max-width: 1024px) {
+  .nav-link,
+  .btn,
+  .answer-btn,
+  .mobile-menu,
+  .theme-toggle,
+  .teacher-btn {
+    min-height: 44px;
+  }
+}
+
+/* --- Teléfono o tablet pequeña girados (poca altura) --- */
+@media (orientation: landscape) and (max-height: 520px) and (max-width: 1024px) {
+  .topbar {
+    height: 54px;
+  }
+  .page-intro {
+    margin-bottom: 14px;
+  }
+  .page-intro h1 {
+    font-size: clamp(26px, 5.2vh, 34px);
+  }
+  .page-intro .lead {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .sidebar {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-top: 14px;
+  }
+  .brand {
+    padding-bottom: 12px;
+  }
+  .sidebar-bottom {
+    display: none;
+  }
+  .content-modal {
+    max-height: 94dvh;
+  }
+  .footer {
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+}
+
+/* --- Tablet vertical (portrait): aprovecha el ancho sin estirar el contenido --- */
+@media (min-width: 601px) and (max-width: 1024px) and (orientation: portrait) {
+  .page-content {
+    max-width: 920px;
+    margin-inline: auto;
+    width: 100%;
+  }
+}
