@@ -468,3 +468,33 @@ body {
     white-space: nowrap;
   }
 }
+
+/* ==========================================================================
+   15 · FLUIDEZ EN TELÉFONO Y TABLET (solo rendimiento, no cambia el aspecto)
+   ========================================================================== */
+
+/* Sin la espera del doble toque: el botón responde en el instante del toque */
+a,
+button,
+input,
+select,
+label,
+[data-go],
+[data-page],
+[data-letter],
+[data-glo],
+[data-theory],
+[data-activity-answer],
+[data-activity-start] {
+  touch-action: manipulation;
+}
+
+/* Los fondos fijos (trama y lavado de color) pasan a su propia capa de la tarjeta gráfica:
+   al desplazar o cambiar de modo el teléfono ya no tiene que volver a pintarlos. */
+@media (max-width: 1024px), (pointer: coarse) {
+  html::before,
+  body::before {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+}

@@ -209,6 +209,7 @@
     el.reader.hidden = false;
     el.title.textContent = s.title;
     el.count.textContent = "Página " + state.page + " de " + TOTAL + " del documento";
+    preload(state.page);   // pide la página ya (y la deja guardada) antes de asignarla al visor
     el.img.src = big(state.page);
     el.img.alt = s.title + ", página " + state.page + " de " + TOTAL + " del PDF";
     applyZoom();
@@ -241,14 +242,24 @@
     el.strip.hidden = total <= 1;
     el.reader.classList.toggle("glo-no-strip", total <= 1);
     if (total > 1) {
-      var h = "";
-      for (var n = s.from; n <= s.to; n++) {
-        h += '<button type="button" class="glo-strip-item' + (n === state.page ? " active" : "") + '" data-glo="page" data-gpage="' + n + '" aria-label="Página ' + n + '">' +
-          '<img src="' + thumb(n) + '" alt="" loading="lazy" decoding="async"><span>' + n + '</span></button>';
+      // La tira solo se vuelve a construir si cambió la sección; si no, solo se mueve la marca «active».
+      var key = s.id + ":" + s.from + "-" + s.to;
+      if (el.strip.getAttribute("data-built") !== key) {
+        var h = "";
+        for (var n = s.from; n <= s.to; n++) {
+          h += '<button type="button" class="glo-strip-item' + (n === state.page ? " active" : "") + '" data-glo="page" data-gpage="' + n + '" aria-label="Página ' + n + '">' +
+            '<img src="' + thumb(n) + '" alt="" loading="lazy" decoding="async"><span>' + n + '</span></button>';
+        }
+        var prevLeft = el.strip.scrollLeft;
+        el.strip.innerHTML = h;
+        el.strip.scrollLeft = prevLeft;
+        el.strip.setAttribute("data-built", key);
+      } else {
+        var cur = el.strip.querySelector(".active");
+        if (cur && Number(cur.dataset.gpage) !== state.page) cur.classList.remove("active");
+        var nxt = el.strip.querySelector('[data-gpage="' + state.page + '"]');
+        if (nxt) nxt.classList.add("active");
       }
-      var prevLeft = el.strip.scrollLeft;
-      el.strip.innerHTML = h;
-      el.strip.scrollLeft = prevLeft;
       var act = el.strip.querySelector(".active");
       if (act && el.strip.scrollTo) {
         el.strip.scrollTo({ left: act.offsetLeft - el.strip.clientWidth / 2 + act.clientWidth / 2, behavior: "smooth" });
@@ -261,14 +272,37 @@
     preloadNeighbours(state.page);
   }
 
-  function preload(n) { if (n >= 1 && n <= TOTAL) { var i = new Image(); i.src = big(n); } }
+  // Páginas precargadas, guardadas en memoria (solo las cercanas, para no gastar la memoria del celular).
+  // Al pasar páginas con clics rápidos la imagen ya está lista y se ve al instante.
+  var cache = {}, cacheOrder = [], CACHE_MAX = 7;
+  function preload(n) {
+    if (n < 1 || n > TOTAL || cache[n]) return;
+    var i = new Image();
+    i.src = big(n);
+    cache[n] = i; cacheOrder.push(n);
+    if (cacheOrder.length > CACHE_MAX) {
+      // Se descartan las más lejanas a la página que se está viendo
+      cacheOrder.sort(function (a, b) { return Math.abs(a - n) - Math.abs(b - n); });
+      delete cache[cacheOrder.pop()];
+    }
+  }
 
-  // Las páginas vecinas se precargan DESPUÉS de que la actual termine de cargar:
-  // así no compiten por la conexión ni se decodifican a la vez (evita el «trabón» en celulares).
+  // La página actual se pide primero (también queda guardada, así su descarga no se cancela si cambias
+  // de página rápido). Las vecinas se precargan DESPUÉS de que la actual termine de cargar, o
+  // cuando dejas de hacer clic un momento: no compiten por la conexión ni se decodifican a la vez.
+  var preloadTimer = 0;
   function preloadNeighbours(page) {
-    var run = function () { if (state.sec && state.page === page) { preload(page + 1); preload(page - 1); } };
+    preload(page);
+    clearTimeout(preloadTimer);
+    var run = function () {
+      if (state.sec && state.page === page) { preload(page + 1); preload(page - 1); preload(page + 2); }
+    };
     if (el.img.complete) run();
-    else { el.img.addEventListener("load", run, { once: true }); el.img.addEventListener("error", run, { once: true }); }
+    else {
+      el.img.addEventListener("load", run, { once: true });
+      el.img.addEventListener("error", run, { once: true });
+      preloadTimer = setTimeout(run, 160);
+    }
   }
 
   function nextSection() {

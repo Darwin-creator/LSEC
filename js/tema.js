@@ -50,14 +50,21 @@
 
   function toggle() {
     var next = current() === "dark" ? "light" : "dark";
-    // transición suave solo durante el cambio
-    root.classList.add("theme-fade");
+    // En teléfono y tablet el cambio es inmediato: animar el color de TODOS los elementos a la vez
+    // saturaba el procesador y el botón tardaba segundos en responder. En computadora se mantiene el fundido.
+    var fade = !(window.matchMedia && window.matchMedia("(max-width: 1024px), (pointer: coarse)").matches);
+    if (fade) root.classList.add("theme-fade");
     apply(next);
-    setStored(next);
-    window.setTimeout(function () { root.classList.remove("theme-fade"); }, 450);
-    if (typeof window.showToast === "function") {
-      window.showToast(next === "dark" ? "Modo oscuro activado" : "Modo claro activado");
-    }
+    // Guardar la elección y mostrar el aviso se hace DESPUÉS de pintar el cambio, para no retrasarlo.
+    var after = function () {
+      setStored(next);
+      if (typeof window.showToast === "function") {
+        window.showToast(next === "dark" ? "Modo oscuro activado" : "Modo claro activado");
+      }
+    };
+    if (window.requestAnimationFrame) window.requestAnimationFrame(function () { window.setTimeout(after, 0); });
+    else after();
+    if (fade) window.setTimeout(function () { root.classList.remove("theme-fade"); }, 450);
   }
 
   // 1) Tema guardado: se aplica de inmediato (antes de que la página se dibuje)

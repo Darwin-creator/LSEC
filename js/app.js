@@ -11,6 +11,27 @@
 const app = document.getElementById("app");
 let currentPage = "inicio", selectedLetter = "A";
 
+/* ---------- Precarga de las imágenes del abecedario ----------
+   Las 30 imágenes se guardan en memoria (son ligeras, ~500 KB en total). Así, al cambiar de
+   letra con clics rápidos, la imagen ya está lista y se muestra al instante en lugar de
+   quedarse la anterior hasta que dejas de hacer clic. */
+const letterImageCache = new Map();
+function warmLetterImages() {
+  alphabet.forEach((l) => {
+    const url = letterImage[l];
+    if (!letterImageCache.has(url)) {
+      const im = new Image();
+      im.src = url;
+      letterImageCache.set(url, im);
+    }
+  });
+}
+function warmLetterImagesWhenIdle() {
+  const run = () => warmLetterImages();
+  if ("requestIdleCallback" in window) requestIdleCallback(run, { timeout: 1500 });
+  else setTimeout(run, 400);
+}
+
 /* ---------- Navegación y plantillas de página ---------- */
 function go(page) {
   if (page === "actividades" && currentPage !== "actividades" && typeof activitiesState !== "undefined") activitiesState.view = "menu";
@@ -18,8 +39,11 @@ function go(page) {
   document.querySelectorAll(".nav-link").forEach((b) => b.classList.toggle("active", b.dataset.page === page));
   document.getElementById("pageCrumb").textContent = { inicio: "Inicio", alfabeto: "Abecedario", videoteca: "Videoteca", teoria: "Aprende LSEC", actividades: "Actividades", cultura: "Cultura e inclusión", proyecto: "El proyecto", glosario: "Glosario LSEC" }[page];
   document.getElementById("sidebar").classList.remove("open");
+  if (page === "alfabeto") warmLetterImages();
   render();
-  window.scrollTo({ top: 0, behavior: "auto" });
+  /* En teléfono y tablet el salto arriba es inmediato (el CSS tiene scroll suave y tardaba casi un segundo). */
+  const instant = window.matchMedia("(max-width:1024px), (pointer:coarse)").matches;
+  window.scrollTo({ top: 0, behavior: instant ? "instant" : "auto" });
 }
 
 function pageIntro(kicker, title, desc, tag = "") {
@@ -708,6 +732,7 @@ function showToast(msg) {
 render();
 window.scrollTo(0, 0);
 document.getElementById("sidebar").scrollTop = 0;
+warmLetterImagesWhenIdle();
 
 /* Si el navegador recupera la página desde su memoria (botón atrás o reabrir pestaña), también empieza arriba */
 window.addEventListener("pageshow", (e) => {

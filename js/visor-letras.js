@@ -42,7 +42,7 @@ function buildLetterViewer(){
     </div>
     <button class="lv-arrow lv-prev" data-lv="prev" type="button" aria-label="Letra anterior">‹</button>
     <figure class="lv-stage">
-      <div class="lv-card"><img class="lv-img" alt="" decoding="async"></div>
+      <div class="lv-card"><img class="lv-img" alt=""></div>
       <figcaption class="lv-cap"><span class="lv-letter"></span><span class="lv-name"></span></figcaption>
     </figure>
     <button class="lv-arrow lv-next" data-lv="next" type="button" aria-label="Letra siguiente">›</button>`;
@@ -85,8 +85,8 @@ function renderLetterViewer(){
     img.onerror = () => { img.onerror = null; img.src = letterImage[l]; };
     img.src = letterImageHD(l);
   });
-  // Precarga de vecinas para que el cambio sea instantáneo
-  [alphabet[i - 1], alphabet[i + 1]].filter(Boolean).forEach(n => { new Image().src = letterImage[n]; });
+  // Precarga (guardada en memoria) para que el cambio sea instantáneo incluso con clics rápidos
+  if (typeof warmLetterImages === "function") warmLetterImages();
 }
 
 function openLetterViewer(letter){

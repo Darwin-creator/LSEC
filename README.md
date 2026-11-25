@@ -79,3 +79,6 @@ El contenido se genera con JavaScript. Si ves el menú pero el centro vacío:
 2. Comprueba que `index.html`, `css/`, `js/` y `assets/` estén en la misma carpeta.
 3. Recarga con `Ctrl + F5`.
 4. Si un script falla, la página muestra un panel de diagnóstico; también puedes abrir F12 → Console.
+- Abecedario y visor ampliado: las 30 imágenes se precargan en memoria, así que con clics rápidos en «Siguiente/Anterior» la letra cambia al instante.
+- Glosario: la página actual y las cercanas quedan guardadas en memoria y la tira de miniaturas ya no se reconstruye en cada paso.
+- Teléfono y tablet: el modo oscuro cambia al instante (sin animar todos los elementos), el salto arriba al cambiar de sección es inmediato y los botones responden sin espera de doble toque. En computadora se conserva el fundido del modo oscuro.
