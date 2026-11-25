@@ -3464,6 +3464,9 @@ body::before {
   line-height: 1.6;
   padding: 14px 16px;
   border-radius: var(--ui-r-control);}
+.notice-history,
+.notice-dedication {
+  text-align: justify;}
 .visual-placeholder {
   font-size: 12.5px;}
 .alphabet-layout {
