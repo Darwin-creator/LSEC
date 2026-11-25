@@ -447,3 +447,24 @@ body {
     justify-content: center;
   }
 }
+
+/* ==========================================================================
+   14 · MODO OSCURO EN TELÉFONO: vertical solo icono · horizontal icono + texto
+   ========================================================================== */
+@media (max-width: 760px) and (orientation: portrait) {
+  .theme-toggle .theme-toggle-label {
+    display: none;
+  }
+  .theme-toggle {
+    padding: 9px 11px;
+  }
+}
+@media (orientation: landscape) and (max-height: 520px) and (pointer: coarse) {
+  .theme-toggle .theme-toggle-label {
+    display: inline;
+  }
+  .theme-toggle {
+    padding: 9px 14px;
+    white-space: nowrap;
+  }
+}
