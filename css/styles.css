@@ -3553,6 +3553,8 @@ body::before {
 .theory-card li {
   line-height: 1.7;
   color: var(--ui-body);}
+.theory-card p {
+  text-align: justify;}
 .theory-button p {
   display: -webkit-box;
   -webkit-line-clamp: 5;
@@ -3598,6 +3600,9 @@ body::before {
 .culture-topic ul {
   font-size: 14.5px;
   line-height: 1.7;}
+.culture-topic > p,
+.culture-topic details p {
+  text-align: justify;}
 .culture-topic summary {
   font-size: 15px;
   min-height: 44px;}
