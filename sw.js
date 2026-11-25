@@ -11,7 +11,7 @@
    · Imágenes, íconos y tipografías → primero lo guardado (instantáneo); las páginas del glosario se guardan al verlas.
    · Videos de YouTube y otros sitios externos → no se tocan.
    ========================================================================== */
-const VERSION = "lsec-v3";
+const VERSION = "lsec-v4";
 const CACHE_CORE = VERSION + "-core";
 const CACHE_RUNTIME = VERSION + "-runtime";
 
