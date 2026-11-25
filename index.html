@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#007030">
+  <meta name="description" content="LSEC San Agustín: plataforma educativa para acercarnos a la Lengua de Señas Ecuatoriana.">
+  <title>LSEC San Agustín | Aprendemos con las manos</title>
+  <link rel="icon" href="assets/images/logo-san-agustin-256.png" type="image/png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="assets/images/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Tipografías: se cargan sin bloquear la primera pintura de la página -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Lora:ital,wght@0,400;0,500;1,500&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Lora:ital,wght@0,400;0,500;1,500&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap"></noscript>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/movil.css">
+  <script>
+    /* Al recargar, la página siempre empieza arriba (el navegador no restaura el scroll anterior). */
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  </script>
+  <script src="js/tema.js"></script>
+  <script defer src="js/datos.js"></script>
+  <script defer src="js/preguntas-actividades.js"></script>
+  <script defer src="js/app.js"></script>
+  <script defer src="js/visor-letras.js"></script>
+  <script defer src="js/visor-glosario.js"></script>
+  <script defer src="js/identidad.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#app">Saltar al contenido</a>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" data-page="inicio" aria-label="LSEC Unidad Educativa San Agustín, inicio">
+        <img src="assets/images/logo-san-agustin-256.png" alt="Escudo de la Unidad Educativa San Agustín" class="brand-mark">
+        <span class="brand-text"><strong>LSEC</strong><small><span>UNIDAD EDUCATIVA</span><span>SAN AGUSTÍN</span></small></span>
+      </a>
+      <div class="side-label">PLATAFORMA EDUCATIVA</div>
+      <nav class="main-nav" aria-label="Navegación principal">
+        <button class="nav-link active" data-page="inicio"><span class="nav-icon">⌂</span> Inicio</button>
+        <button class="nav-link" data-page="alfabeto"><span class="nav-icon">A</span> Abecedario</button>
+        <button class="nav-link" data-page="videoteca"><span class="nav-icon">▷</span> Videoteca</button>
+        <button class="nav-link" data-page="teoria"><span class="nav-icon">▤</span> Aprende LSEC</button>
+        <button class="nav-link" data-page="glosario"><span class="nav-icon">▧</span> Glosario LSEC</button>
+        <button class="nav-link" data-page="actividades"><span class="nav-icon">✳</span> Actividades</button>
+        <button class="nav-link" data-page="cultura"><span class="nav-icon">♡</span> Cultura e inclusión</button>
+        <button class="nav-link" data-page="proyecto"><span class="nav-icon">ⓘ</span> El proyecto</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="inclusion-mini"><span class="mini-spark">✦</span><strong>Aprender nos acerca.</strong><p>La comunicación es un puente que construimos entre todos.</p></div>
+        <span class="side-foot">SAN AGUSTÍN · ECUADOR</span>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Abrir menú">☰</button>
+        <div class="breadcrumb"><span>Plataforma</span><b>/</b><strong id="pageCrumb">Inicio</strong></div>
+        <div class="top-actions">
+          <label class="search-box"><span>⌕</span><input id="globalSearch" type="search" placeholder="Buscar una palabra o tema..." aria-label="Buscar"></label>
+          <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Activar modo oscuro" title="Cambiar a modo oscuro"><span class="theme-toggle-icon" aria-hidden="true">☾</span> <span class="theme-toggle-label">Modo oscuro</span></button>
+          <button class="teacher-btn" id="teacherMode" title="Modo presentación para docentes">▣ <span>Modo clase</span></button>
+        </div>
+      </header>
+      <div id="app" class="page-content" tabindex="-1">
+        <!-- Marcador de carga: invisible al inicio. Solo se muestra si la carga tarda más de ~1,2 s,
+             y app.js lo reemplaza apenas dibuja la primera página. -->
+        <div class="boot" role="status" aria-live="polite">
+          <span class="boot-spinner" aria-hidden="true"></span>
+          <span class="boot-text">Cargando…</span>
+        </div>
+        <noscript><section class="panel"><h1>Se necesita JavaScript</h1><p class="lead">Activa JavaScript en tu navegador para usar la plataforma LSEC San Agustín.</p></section></noscript>
+      </div>
+      <footer class="footer"><span>© 2026 LSEC San Agustín</span><span>Aprendizaje · Respeto · Inclusión</span></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>
+    /* Modo sin conexión: guarda la plataforma en el teléfono (solo funciona en https o localhost). */
+    if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost" || location.hostname === "127.0.0.1")) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("sw.js").catch(function () { /* sin modo sin conexión: todo sigue funcionando igual */ });
+      });
+    }
+  </script>
+  <script>
+    /* Si algo falla al cargar, se muestra un aviso claro en lugar de una página vacía. */
+    (function () {
+      function showError(title, detail) {
+        var mount = document.getElementById("app");
+        if (!mount) return;
+        mount.textContent = "";
+        var box = document.createElement("section");
+        box.className = "panel boot-error";
+        var eyebrow = document.createElement("div");
+        eyebrow.className = "eyebrow";
+        eyebrow.textContent = "ERROR DE CARGA";
+        var h = document.createElement("h2");
+        h.textContent = title;
+        var p = document.createElement("p");
+        p.className = "lead";
+        p.textContent = "Comprueba que descargaste la carpeta completa y que index.html, css, js y assets están juntas. Luego recarga con Ctrl + F5.";
+        var d = document.createElement("div");
+        d.className = "notice";
+        d.textContent = "Detalle técnico: " + detail;
+        box.append(eyebrow, h, p, d);
+        mount.append(box);
+      }
+      window.addEventListener("error", function (e) {
+        if (e.target && e.target !== window) return; /* recursos (imágenes, fuentes) no cuentan */
+        showError("No se pudo mostrar el contenido",
+          (e.message || "Error desconocido") + (e.filename ? " · " + e.filename.split("/").pop() : "") + (e.lineno ? " · línea " + e.lineno : ""));
+      });
+      window.addEventListener("unhandledrejection", function (e) {
+        showError("Error al cargar un recurso", String(e.reason || "Promesa rechazada"));
+      });
+    })();
+  </script>
+</body>
+</html>

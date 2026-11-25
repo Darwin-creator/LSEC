@@ -1,0 +1,508 @@
+/* ==========================================================================
+   9 · AJUSTES PARA TELÉFONO Y TABLET
+   Se carga DESPUÉS de styles.css a propósito. Contiene:
+     · Reglas globales para pantallas táctiles (vertical y horizontal).
+     · Distribución del abecedario.
+     · Quita efectos pesados en pantallas táctiles (mejor rendimiento).
+     · Ajustes para pantallas con poca altura (teléfono girado).
+   ========================================================================== */
+
+/* --- Reglas globales para todos los dispositivos --- */
+html {
+  /* Evita que iOS/Android agranden el texto al girar el dispositivo */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+img, svg, video {
+  max-width: 100%;
+}
+body {
+  overflow-x: hidden;
+}
+
+/* La barra del navegador móvil cambia la altura real: se usa dvh cuando existe */
+@supports (height: 100dvh) {
+  .app-shell,
+  .main-area {
+    min-height: 100dvh;
+  }
+}
+
+/* Zonas seguras: el "notch" y las barras del sistema no tapan el contenido al girar el teléfono.
+   Solo en teléfono y tablet; en computadora los valores son 0 y no cambia nada. */
+@media (max-width: 1024px) {
+  body {
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+  }
+  .sidebar {
+    padding-left: calc(16px + env(safe-area-inset-left, 0px));
+  }
+  .footer {
+    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  }
+}
+@media (max-width: 1024px) {
+  .alphabet-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  .letter-detail {
+    position: static;
+    scroll-margin-top: 84px;
+    min-height: 0;
+  }
+  .letter-grid {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 10px;
+  }
+}
+@media (max-width: 900px) {
+  .letter-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+@media (max-width: 760px) {
+  .alphabet-layout {
+    gap: 18px;
+  }
+  .alphabet-layout > .panel {
+    padding: 20px 16px;
+  }
+  .letter-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .letter-tile {
+    min-width: 0;
+  }
+  .letter-detail {
+    padding: 24px 18px;
+  }
+  .letter-detail .sign-image-wrap {
+    width: 100%;
+    max-width: 340px;
+  }
+  .letter-detail .zoom-btn,
+  .letter-detail .button-row .btn {
+    width: 100%;
+    max-width: 340px;
+    justify-content: center;
+  }
+  .letter-detail .letter-controls {
+    width: 100%;
+    max-width: 340px;
+    flex-wrap: nowrap;
+  }
+  .letter-detail .letter-controls .btn {
+    flex: 1 1 0;
+    min-width: 0;
+    padding-inline: 10px;
+    white-space: nowrap;
+  }
+  .letter-detail .button-row {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+@media (max-width: 360px) {
+  .letter-grid {
+    gap: 6px;
+  }
+  .alphabet-layout > .panel {
+    padding: 18px 12px;
+  }
+}
+@media (max-width: 1024px), (pointer: coarse) {
+  .topbar,
+  html:not([data-theme=dark]) .topbar {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background-color: rgba(251, 250, 245, .97);
+  }
+  html[data-theme=dark] .topbar {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background-color: rgba(14, 21, 17, .97);
+  }
+  .sa-scrim,
+  .modal-backdrop {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  html[data-theme=dark] body::before {
+    filter: none;
+    opacity: .7;
+  }
+}
+@media (min-width: 761px) and (max-width: 900px) {
+  .theme-toggle-label,
+  .teacher-btn span {
+    display: none;
+  }
+  .theme-toggle,
+  .teacher-btn {
+    padding-inline: 12px;
+  }
+  .search-box {
+    width: min(230px, 32vw);
+  }
+}
+.breadcrumb {
+  min-width: 0;
+}
+.breadcrumb strong {
+  white-space: nowrap;
+}
+
+/* --- Dedos cómodos: botones y enlaces de al menos 44 px en pantallas táctiles --- */
+@media (pointer: coarse) and (max-width: 1024px) {
+  .nav-link,
+  .btn,
+  .answer-btn,
+  .mobile-menu,
+  .theme-toggle,
+  .teacher-btn {
+    min-height: 44px;
+  }
+}
+
+/* --- Teléfono o tablet pequeña girados (poca altura) --- */
+@media (orientation: landscape) and (max-height: 520px) and (max-width: 1024px) {
+  .topbar {
+    height: 54px;
+  }
+  .page-intro {
+    margin-bottom: 14px;
+  }
+  .page-intro h1 {
+    font-size: clamp(26px, 5.2vh, 34px);
+  }
+  .page-intro .lead {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .sidebar {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-top: 14px;
+  }
+  .brand {
+    padding-bottom: 12px;
+  }
+  .sidebar-bottom {
+    display: none;
+  }
+  .content-modal {
+    max-height: 94dvh;
+  }
+  .footer {
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+}
+
+/* --- Tablet vertical (portrait): aprovecha el ancho sin estirar el contenido --- */
+@media (min-width: 601px) and (max-width: 1024px) and (orientation: portrait) {
+  .page-content {
+    max-width: 920px;
+    margin-inline: auto;
+    width: 100%;
+  }
+}
+
+/* ==========================================================================
+   10 · VISORES EN TELÉFONO (glosario y abecedario)
+   ========================================================================== */
+
+/* Iconos de pantalla completa (SVG: se ven igual en cualquier teléfono) */
+.glo-ico,
+.lv-ico {
+  display: block;
+  flex: none;
+  width: 20px;
+  height: 20px;
+}
+.glo-fs,
+.lv-btn[data-lv="fs"] {
+  gap: 8px;
+}
+
+/* Zoom con los dedos: el visor maneja el pellizco, el navegador solo desplaza */
+.glo-scroll {
+  touch-action: pan-x pan-y;
+}
+
+/* Teléfono vertical: solo el icono, sin la frase larga */
+@media (max-width: 760px) and (orientation: portrait) {
+  .glo-fs span,
+  .lv-btn[data-lv="fs"] span {
+    display: none;
+  }
+  .glo-fs {
+    padding: 0;
+    width: 44px;
+  }
+
+  /* Menú de secciones: cuadrícula ordenada de 2 columnas, tarjetas iguales y centradas */
+  .glo-grid.feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 1fr;
+    gap: 12px;
+  }
+  .glo-grid .glo-card {
+    align-items: center;
+    text-align: center;
+    padding: 16px 12px;
+    min-height: 0;
+    height: 100%;
+  }
+  .glo-grid .glo-card .feature-icon {
+    margin: 0 auto 10px;
+  }
+  .glo-grid .glo-card h3 {
+    font-size: 15px;
+    line-height: 1.25;
+    margin-bottom: 6px;
+  }
+  .glo-grid .glo-card p {
+    font-size: 12.5px;
+    line-height: 1.45;
+  }
+  .glo-grid .glo-card .glo-card-meta {
+    margin-top: auto;
+    padding-top: 8px;
+    font-size: 11.5px;
+  }
+  .glo-grid .glo-card .glo-card-go {
+    font-size: 12.5px;
+    margin-top: 4px;
+  }
+  /* La última tarjeta (cantidad impar) ocupa todo el ancho para que no quede un hueco */
+  .glo-grid .glo-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+  .glo-hint {
+    text-align: center;
+  }
+}
+@media (max-width: 340px) {
+  .glo-grid.feature-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Teléfono horizontal: se quita la tira de miniaturas para dar todo el espacio a la página */
+@media (orientation: landscape) and (max-height: 520px) and (max-width: 1024px) {
+  .glo-strip,
+  .glo-reader .glo-strip[hidden],
+  .glo-reader.glo-autohide .glo-strip {
+    display: none !important;
+  }
+  .glo-note {
+    display: none;
+  }
+  .glo-reader.is-full {
+    padding: 8px;
+    gap: 6px;
+  }
+  /* Visor ampliado del abecedario: más sitio para la imagen */
+  .lv-stage {
+    padding: 56px clamp(70px, 12vw, 110px) 8px;
+    gap: 6px;
+  }
+  .lv-cap {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   11 · AJUSTES FINOS EN TELÉFONO
+   ========================================================================== */
+
+/* Teléfono: sin «Modo clase» (el menú lateral queda oculto) y «Modo oscuro» con su texto */
+@media (max-width: 760px) {
+  .teacher-btn {
+    display: none;
+  }
+  .theme-toggle .theme-toggle-label {
+    display: inline;
+  }
+  .theme-toggle {
+    padding: 9px 14px;
+    white-space: nowrap;
+  }
+  .breadcrumb {
+    min-width: 0;
+  }
+  .breadcrumb > span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+/* Pantalla completa en teléfono (capa propia): márgenes de arriba y abajo iguales */
+.glo-reader.glo-pseudo {
+  padding-top: calc(18px + env(safe-area-inset-top, 0px));
+  padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  padding-left: calc(12px + env(safe-area-inset-left, 0px));
+  padding-right: calc(12px + env(safe-area-inset-right, 0px));
+  box-sizing: border-box;
+}
+@media (orientation: landscape) and (max-height: 520px) {
+  .glo-reader.glo-pseudo {
+    padding-top: calc(10px + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* ==========================================================================
+   12 · BARRA DEL LECTOR EN TELÉFONO: una sola línea y botones pequeños
+   ========================================================================== */
+@media (max-width: 760px) and (orientation: portrait) {
+  /* «Menú principal» a la izquierda y las herramientas a la derecha, en la misma línea */
+  .glo-bar {
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+  }
+  .glo-bar .glo-menu-btn {
+    flex: 0 1 auto;
+    min-width: 0;
+    height: 36px;
+    min-height: 36px;
+    padding: 0 12px;
+    font-size: 13px;
+    gap: 5px;
+    white-space: nowrap;
+  }
+  .glo-bar .glo-tools {
+    flex: 0 0 auto;
+    margin-left: 0;
+    gap: 4px;
+  }
+  .glo-bar .glo-tool {
+    width: 36px;
+    min-width: 36px;
+    height: 36px;
+    min-height: 36px;
+    padding: 0;
+    font-size: 17px;
+  }
+  .glo-bar .glo-fs {
+    width: 36px;
+  }
+  .glo-bar .glo-ico {
+    width: 18px;
+    height: 18px;
+  }
+  .glo-bar .glo-zoom {
+    min-width: 40px;
+    font-size: 12px;
+  }
+  .glo-bar .glo-title {
+    order: 3;
+    flex: 0 0 100%;
+  }
+  /* Con el lector abierto, el recuadro blanco usa menos margen lateral para que todo quepa */
+  .glo-panel:has(.glo-reader:not([hidden])):not(:has(.glo-pseudo)) {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+}
+
+/* Botones de abajo (Anterior / Siguiente): compactos, sin ovalarse con textos largos */
+@media (max-width: 760px) {
+  .glo-foot .btn {
+    min-height: 40px;
+    padding: 8px 14px;
+    font-size: 13px;
+    line-height: 1.25;
+  }
+  .glo-foot .btn.is-section {
+    border-radius: 18px;
+  }
+}
+
+/* ==========================================================================
+   13 · TELÉFONO HORIZONTAL: sin «Modo clase» y botones de página solo con flechas
+   ========================================================================== */
+@media (orientation: landscape) and (max-height: 520px) and (pointer: coarse) {
+  .teacher-btn {
+    display: none;
+  }
+  .glo-foot .glo-lbl {
+    display: none;
+  }
+  .glo-foot .btn {
+    min-width: 64px;
+    padding: 8px 22px;
+    font-size: 20px;
+    line-height: 1;
+    justify-content: center;
+  }
+}
+
+/* ==========================================================================
+   14 · MODO OSCURO EN TELÉFONO: vertical solo icono · horizontal icono + texto
+   ========================================================================== */
+@media (max-width: 760px) and (orientation: portrait) {
+  .theme-toggle .theme-toggle-label {
+    display: none;
+  }
+  /* Botón redondo de tamaño normal (44 × 44 px, igual de alto que el botón del menú) */
+  .theme-toggle {
+    padding: 0;
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    justify-content: center;
+  }
+  .theme-toggle .theme-toggle-icon {
+    font-size: 17px;
+  }
+}
+@media (orientation: landscape) and (max-height: 520px) and (pointer: coarse) {
+  .theme-toggle .theme-toggle-label {
+    display: inline;
+  }
+  .theme-toggle {
+    padding: 9px 14px;
+    white-space: nowrap;
+  }
+}
+
+/* ==========================================================================
+   15 · FLUIDEZ EN TELÉFONO Y TABLET (solo rendimiento, no cambia el aspecto)
+   ========================================================================== */
+
+/* Sin la espera del doble toque: el botón responde en el instante del toque */
+a,
+button,
+input,
+select,
+label,
+[data-go],
+[data-page],
+[data-letter],
+[data-glo],
+[data-theory],
+[data-activity-answer],
+[data-activity-start] {
+  touch-action: manipulation;
+}
+
+/* Los fondos fijos (trama y lavado de color) pasan a su propia capa de la tarjeta gráfica:
+   al desplazar o cambiar de modo el teléfono ya no tiene que volver a pintarlos. */
+@media (max-width: 1024px), (pointer: coarse) {
+  html::before,
+  body::before {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+}
