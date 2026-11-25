@@ -47,6 +47,11 @@
 
   function pad(n) { return (n < 10 ? "0" : "") + n; }
   function big(n) { return BASE + "p" + pad(n) + ".webp"; }
+  // Versión más liviana (1800 px) para teléfono y tablet: se descarga y decodifica más rápido.
+  // Al acercar con zoom se usa automáticamente la versión grande original. En computadora siempre se usa la grande.
+  function med(n) { return BASE + "m/p" + pad(n) + ".webp"; }
+  var LIGHT = window.matchMedia ? window.matchMedia("(max-width: 1024px), (pointer: coarse)") : { matches: false };
+  function pageSrc(n) { return (LIGHT.matches && state.z <= 1) ? med(n) : big(n); }
   function thumb(n) { return BASE + "t" + pad(n) + ".webp"; }
   function range(s) { return s.from === s.to ? "Página " + s.from : "Páginas " + s.from + "–" + s.to; }
   function count(s) { var c = s.to - s.from + 1; return c + (c === 1 ? " página" : " páginas"); }
@@ -210,7 +215,7 @@
     el.title.textContent = s.title;
     el.count.textContent = "Página " + state.page + " de " + TOTAL + " del documento";
     preload(state.page);   // pide la página ya (y la deja guardada) antes de asignarla al visor
-    el.img.src = big(state.page);
+    el.img.src = pageSrc(state.page);
     el.img.alt = s.title + ", página " + state.page + " de " + TOTAL + " del PDF";
     applyZoom();
 
@@ -276,13 +281,15 @@
   // Al pasar páginas con clics rápidos la imagen ya está lista y se ve al instante.
   var cache = {}, cacheOrder = [], CACHE_MAX = 7;
   function preload(n) {
-    if (n < 1 || n > TOTAL || cache[n]) return;
+    if (n < 1 || n > TOTAL) return;
+    var url = pageSrc(n);
+    if (cache[url]) return;
     var i = new Image();
-    i.src = big(n);
-    cache[n] = i; cacheOrder.push(n);
+    i.src = url;
+    cache[url] = { img: i, n: n }; cacheOrder.push(url);
     if (cacheOrder.length > CACHE_MAX) {
       // Se descartan las más lejanas a la página que se está viendo
-      cacheOrder.sort(function (a, b) { return Math.abs(a - n) - Math.abs(b - n); });
+      cacheOrder.sort(function (a, b) { return Math.abs(cache[a].n - n) - Math.abs(cache[b].n - n); });
       delete cache[cacheOrder.pop()];
     }
   }
@@ -332,6 +339,8 @@
       ry = (sc.scrollTop + sc.clientHeight / 2) / sc.scrollHeight;
     }
     el.reader.classList.toggle("is-zoomed", z > 1);
+    // Con zoom se usa la imagen grande; sin zoom, la liviana (solo teléfono y tablet)
+    if (state.sec) { var want = pageSrc(state.page); if (el.img.getAttribute("src") !== want) el.img.src = want; }
     var f = z > 1 ? fitWidth() : 0;
     el.img.style.width = f ? Math.round(f * z) + "px" : "";
     el.zoom.textContent = Math.round(z * 100) + "%";

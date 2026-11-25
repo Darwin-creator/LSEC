@@ -455,8 +455,16 @@ body {
   .theme-toggle .theme-toggle-label {
     display: none;
   }
+  /* Botón redondo de tamaño normal (44 × 44 px, igual de alto que el botón del menú) */
   .theme-toggle {
-    padding: 9px 11px;
+    padding: 0;
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    justify-content: center;
+  }
+  .theme-toggle .theme-toggle-icon {
+    font-size: 17px;
   }
 }
 @media (orientation: landscape) and (max-height: 520px) and (pointer: coarse) {

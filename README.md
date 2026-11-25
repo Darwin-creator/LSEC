@@ -22,10 +22,13 @@ js/
   visor-letras.js       Visor ampliado del abecedario (teclado, deslizar, pantalla completa)
   visor-glosario.js     Lector por secciones del Glosario LSEC (zoom, pantalla completa)
   identidad.js          Elementos institucionales: frases de San Agustín y lema del colegio
+sw.js                   Modo sin conexión (service worker): guarda la plataforma en el teléfono
+manifest.webmanifest    Datos para «Instalar / Añadir a la pantalla de inicio» (nombre, colores, íconos)
 assets/
   images/               Escudo, ilustraciones y recortes del abecedario (alfabeto/ y alfabeto/mini/)
   fondos/               Fondos decorativos SVG por sección
   documentos/paginas/   Las 50 páginas del glosario como imágenes (pNN grande, tNN miniatura)
+    m/                  Versión liviana (1800 px) de cada página: la usan teléfono y tablet; con zoom se carga la grande
 ```
 
 Los scripts usan `defer` y deben cargarse en este orden: `datos.js` → `app.js` → `visor-letras.js` → `visor-glosario.js` → `identidad.js`.
@@ -82,3 +85,7 @@ El contenido se genera con JavaScript. Si ves el menú pero el centro vacío:
 - Abecedario y visor ampliado: las 30 imágenes se precargan en memoria, así que con clics rápidos en «Siguiente/Anterior» la letra cambia al instante.
 - Glosario: la página actual y las cercanas quedan guardadas en memoria y la tira de miniaturas ya no se reconstruye en cada paso.
 - Teléfono y tablet: el modo oscuro cambia al instante (sin animar todos los elementos), el salto arriba al cambiar de sección es inmediato y los botones responden sin espera de doble toque. En computadora se conserva el fundido del modo oscuro.
+- Glosario en teléfono y tablet: se muestra la versión liviana de cada página (carpeta `m/`) y, al acercar con zoom, se carga automáticamente la grande. En computadora siempre se usa la grande.
+- Modo sin conexión (`sw.js`): tras la primera visita, la plataforma abre al instante y funciona sin internet (las páginas del glosario se guardan al verlas; los videos de YouTube sí necesitan conexión). Solo se activa con https o localhost. **Si cambias cualquier archivo, sube el número de `VERSION` en `sw.js`** (por ejemplo `lsec-v2`) para que los teléfonos descarguen la versión nueva.
+- Botón de modo oscuro en teléfono: ya no se queda «presionado» después de tocarlo (los efectos de hover de ese botón ahora solo se aplican con mouse) y, en vertical, es un botón redondo de 44 × 44 px.
+- Efectos hover (`:hover`) en TODOS los botones, tarjetas y enlaces: ahora solo se aplican con mouse (`@media (hover: hover)`). En el teléfono ya no se quedan «pegados» después de tocar. En computadora se ven exactamente igual.

@@ -592,10 +592,12 @@ input:focus-visible {
   .letter-tile span {
     font-size: 10px;}
 }
+@media (hover: hover) {
 .letter-btn:hover {
   background: var(--green-3);
   color: var(--green);
   border-color: #b7d2be;}
+}
 .letter-tile {
   cursor: pointer;
   transition:
@@ -606,11 +608,16 @@ input:focus-visible {
 .letter-tile:focus-visible {
   outline: 3px solid var(--gold);
   outline-offset: 2px;}
-.letter-tile.selected,
+.letter-tile.selected{
+  background: #fff;
+  color: var(--green);
+  transform: translateY(-2px);}
+@media (hover: hover) {
 .letter-tile.selected:hover {
   background: #fff;
   color: var(--green);
   transform: translateY(-2px);}
+}
 .letter-tile.selected img {
   filter: none;
   mix-blend-mode: normal;}
@@ -624,9 +631,11 @@ input:focus-visible {
   position: relative;
   cursor: zoom-in;
   transition: box-shadow .2s, border-color .2s;}
+@media (hover: hover) {
 .letter-detail .sign-image-wrap:hover {
   border-color: #b7d2be;
   box-shadow: var(--shadow);}
+}
 .letter-detail .sign-image {
   width: 100%;
   max-height: none;
@@ -688,8 +697,10 @@ input:focus-visible {
   align-items: center;
   gap: 8px;
   transition: background .15s;}
+@media (hover: hover) {
 .lv-btn:hover {
   background: #ffffff38;}
+}
 .lv-close {
   padding: 10px 13px;
   font-size: 15px;}
@@ -752,8 +763,10 @@ input:focus-visible {
   display: grid;
   place-items: center;
   z-index: 2;}
+@media (hover: hover) {
 .lv-arrow:hover:not(:disabled) {
   transform: translateY(-50%) scale(1.07);}
+}
 .lv-arrow:disabled {
   opacity: .25;
   cursor: not-allowed;}
@@ -775,8 +788,10 @@ input:focus-visible {
     transform: none;
     width: 58px;
     height: 58px;}
-  .lv-arrow:hover:not(:disabled) {
+  @media (hover: hover) {
+.lv-arrow:hover:not(:disabled) {
     transform: scale(1.05);}
+}
   .lv-prev {
     left: 18px;}
   .lv-next {
@@ -1067,9 +1082,11 @@ a {
     color .2s,
     transform .2s,
     box-shadow .2s;}
+@media (hover: hover) {
 .nav-link:hover {
   background: var(--sa-green-soft);
   color: var(--sa-green);}
+}
 .nav-link .nav-icon {
   background: var(--sa-green-soft);
   color: var(--sa-green);
@@ -1144,10 +1161,12 @@ a {
   border-color: #d7e4da;
   color: var(--sa-green);
   transition: .2s;}
+@media (hover: hover) {
 .teacher-btn:hover {
   background: var(--sa-green);
   color: #fff;
   border-color: var(--sa-green);}
+}
 body.presentation .teacher-btn {
   background: var(--sa-gold-soft);
   border-color: var(--sa-gold);}
@@ -1229,27 +1248,35 @@ body.presentation .teacher-btn {
 .btn-primary {
   background: var(--sa-green);
   box-shadow: 0 9px 20px rgba(0, 112, 48, .25);}
+@media (hover: hover) {
 .btn-primary:hover {
   background: var(--sa-green-deep);}
+}
 .hero .btn-primary {
   background: var(--sa-gold);
   color: #2b1d00;
   box-shadow: 0 9px 22px rgba(0, 0, 0, .25);}
+@media (hover: hover) {
 .hero .btn-primary:hover {
   background: #f0b52a;}
+}
 .hero .btn-light {
   background: rgba(255, 255, 255, .12);
   color: #fff;
   border: 1px solid rgba(255, 255, 255, .55);}
+@media (hover: hover) {
 .hero .btn-light:hover {
   background: #fff;
   color: var(--sa-green);}
+}
 .btn-light {
   color: var(--sa-green);
   border-color: #d4e4d8;}
+@media (hover: hover) {
 .btn-light:hover {
   border-color: var(--sa-gold);
   background: var(--sa-gold-soft);}
+}
 .stat-card {
   position: relative;
   overflow: hidden;
@@ -1271,10 +1298,14 @@ body.presentation .teacher-btn {
   transform: scaleX(0);
   transform-origin: left;
   transition: transform .3s;}
+@media (hover: hover) {
 .feature-card:hover {
   border-color: #bcd8c3;}
+}
+@media (hover: hover) {
 .feature-card:hover:before {
   transform: scaleX(1);}
+}
 .feature-icon {
   background:
     linear-gradient(
@@ -1283,9 +1314,11 @@ body.presentation .teacher-btn {
       #fff);
   color: var(--sa-green);
   border: 1px solid #cfe5d4;}
+@media (hover: hover) {
 .feature-card:hover .feature-icon {
   background: var(--sa-green);
   color: #fff;}
+}
 .feature-card h3 {
   color: var(--sa-green-deep);}
 .callout {
@@ -1315,9 +1348,11 @@ body.presentation .teacher-btn {
   color: var(--sa-red-deep);
   position: relative;
   z-index: 1;}
+@media (hover: hover) {
 .callout .btn:hover {
   background: var(--sa-gold);
   color: #2b1d00;}
+}
 .panel,
 .theory-card,
 .video-card,
@@ -1336,24 +1371,38 @@ body.presentation .teacher-btn {
   color: var(--sa-green-deep);}
 .theory-more {
   color: var(--sa-red);}
+@media (hover: hover) {
 .theory-button:hover {
   border-color: var(--sa-gold);}
+}
 .resource a,
 .video-info a {
   color: var(--sa-red);}
+@media (hover: hover) {
 .resource:hover {
   border-color: var(--sa-gold);}
+}
 .letter-btn {
   border-color: #dbe7de;}
-.letter-btn:hover,
+
 .letter-btn.selected {
   background: var(--sa-green);
   color: #fff;
   border-color: var(--sa-green);}
-.letter-tile.selected,
+@media (hover: hover) {
+.letter-btn:hover {
+  background: var(--sa-green);
+  color: #fff;
+  border-color: var(--sa-green);}
+}
+.letter-tile.selected{
+  border-color: var(--sa-gold);
+  box-shadow: 0 0 0 3px rgba(224, 163, 26, .28), 0 8px 18px rgba(0, 112, 48, .2);}
+@media (hover: hover) {
 .letter-tile.selected:hover {
   border-color: var(--sa-gold);
   box-shadow: 0 0 0 3px rgba(224, 163, 26, .28), 0 8px 18px rgba(0, 112, 48, .2);}
+}
 .letter-tile.selected span {
   background: var(--sa-green);}
 .letter-detail {
@@ -1377,12 +1426,16 @@ body.presentation .teacher-btn {
   color: #6c4d00;}
 .video-card {
   transition: .2s;}
+@media (hover: hover) {
 .video-card:hover {
   border-color: #bcd8c3;}
+}
 .video-play {
   background: rgba(200, 16, 46, .95);}
+@media (hover: hover) {
 .video-play:hover {
   background: var(--sa-red-deep);}
+}
 .video-tools .search-input:focus {
   border-color: var(--sa-gold);
   box-shadow: 0 0 0 3px rgba(224, 163, 26, .22);}
@@ -1392,9 +1445,11 @@ body.presentation .teacher-btn {
   color: var(--sa-red);}
 .progress span {
   background: var(--sa-tricolor);}
+@media (hover: hover) {
 .answer-btn:hover {
   border-color: var(--sa-gold);
   background: var(--sa-gold-soft);}
+}
 .answer-btn.correct {
   border-color: var(--sa-green);
   background: var(--sa-green-soft);}
@@ -1447,9 +1502,11 @@ body.presentation .teacher-btn {
 .modal-close {
   background: var(--sa-green-soft);
   color: var(--sa-green);}
+@media (hover: hover) {
 .modal-close:hover {
   background: var(--sa-red);
   color: #fff;}
+}
 .content-modal h2 {
   color: var(--sa-green-deep);}
 .lv {
@@ -1458,9 +1515,11 @@ body.presentation .teacher-btn {
       circle at 50% 0,
       #0a5a2c,
       #00280f 70%);}
+@media (hover: hover) {
 .lv-arrow:hover:not(:disabled) {
   background: var(--sa-gold);
   border-color: var(--sa-gold);}
+}
 .lv-card {
   border-bottom: 6px solid var(--sa-gold);}
 .lv-name {
@@ -1491,8 +1550,10 @@ body.presentation .teacher-btn {
   color: var(--sa-red);
   text-decoration: none;
   border-bottom: 1px dotted currentColor;}
+@media (hover: hover) {
 .sa-footer-mid a:hover {
   color: var(--sa-green);}
+}
 .sa-quotes {
   position: relative;
   overflow: hidden;
@@ -1621,10 +1682,12 @@ body.presentation .teacher-btn {
   place-items: center;
   padding: 0 0 3px;
   transition: .2s;}
+@media (hover: hover) {
 .sa-quote-btn:hover {
   background: var(--sa-gold);
   border-color: var(--sa-gold);
   color: #2b1d00;}
+}
 .sa-quote-dots {
   display: flex;
   gap: 7px;
@@ -1713,6 +1776,7 @@ body.presentation .teacher-btn {
     0 12px 24px rgba(0, 71, 31, .2),
     inset 0 0 0 2px #fff;
   transition: transform .25s, box-shadow .25s;}
+@media (hover: hover) {
 .brand:hover .brand-mark {
   transform: translateY(-2px) rotate(-1.5deg);
   box-shadow:
@@ -1720,11 +1784,14 @@ body.presentation .teacher-btn {
     0 0 0 5.5px rgba(224, 163, 26, .5),
     0 16px 28px rgba(0, 71, 31, .26),
     inset 0 0 0 2px #fff;}
+}
 @media (prefers-reduced-motion: reduce) {
   .brand-mark {
     transition: none;}
-  .brand:hover .brand-mark {
+  @media (hover: hover) {
+.brand:hover .brand-mark {
     transform: none;}
+}
 }
 .sa-scrim {
   position: fixed;
@@ -1758,9 +1825,11 @@ body.presentation .teacher-btn {
     font-size: 21px;
     flex: 0 0 42px;
     transition: .2s;}
-  .mobile-menu:hover {
+  @media (hover: hover) {
+.mobile-menu:hover {
     background: var(--sa-green);
     color: #fff;}
+}
   .topbar {
     gap: 12px;}
   .breadcrumb {
@@ -2045,16 +2114,20 @@ body.presentation .teacher-btn {
   align-items: center;
   gap: 7px;
   transition: .2s;}
-.theme-toggle:hover {
-  background: var(--sa-green);
-  color: #fff;
-  border-color: var(--sa-green);}
+@media (hover: hover) {
+  .theme-toggle:hover {
+    background: var(--sa-green);
+    color: #fff;
+    border-color: var(--sa-green);}
+}
 .theme-toggle-icon {
   line-height: 1;
   display: inline-block;
   transition: transform .35s;}
-.theme-toggle:hover .theme-toggle-icon {
-  transform: rotate(-18deg);}
+@media (hover: hover) {
+  .theme-toggle:hover .theme-toggle-icon {
+    transform: rotate(-18deg);}
+}
 @media (max-width: 760px) {
   .theme-toggle-label {
     display: none;}
@@ -2157,9 +2230,11 @@ html[data-theme=dark] {
         transparent);}
   :where(html[data-theme=dark]) .nav-link {
     color: #b6c8bc;}
-  :where(html[data-theme=dark]) .nav-link:not(.active):hover {
+  @media (hover: hover) {
+:where(html[data-theme=dark]) .nav-link:not(.active):hover {
     background: var(--sa-green-soft);
     color: var(--dk-accent);}
+}
   :where(html[data-theme=dark]) .nav-link .nav-icon {
     background: var(--sa-green-soft);
     color: var(--dk-accent);}
@@ -2183,9 +2258,11 @@ html[data-theme=dark] {
         #241f10 140%);
     border-color: var(--dk-gold-line);
     box-shadow: 0 10px 24px rgba(0, 0, 0, .35), inset 0 0 0 1px rgba(255, 255, 255, .03);}
-  :where(html[data-theme=dark]) .brand:hover {
+  @media (hover: hover) {
+:where(html[data-theme=dark]) .brand:hover {
     border-color: var(--sa-gold);
     box-shadow: 0 14px 28px rgba(0, 0, 0, .45);}
+}
   :where(html[data-theme=dark]) .brand small span:first-child {
     color: var(--dk-accent);}
   :where(html[data-theme=dark]) .brand small span:last-child {
@@ -2208,11 +2285,18 @@ html[data-theme=dark] {
     background: var(--dk-surface);
     border-color: var(--dk-border-2);
     color: var(--dk-accent);}
-  :where(html[data-theme=dark]) .teacher-btn:hover,
-  :where(html[data-theme=dark]) .theme-toggle:hover {
+  @media (hover: hover) {
+:where(html[data-theme=dark]) .teacher-btn:hover {
     background: var(--sa-green);
     color: #fff;
     border-color: var(--sa-green);}
+}
+  @media (hover: hover) {
+    :where(html[data-theme=dark]) .theme-toggle:hover {
+      background: var(--sa-green);
+      color: #fff;
+      border-color: var(--sa-green);}
+  }
   :where(html[data-theme=dark]) body.presentation .teacher-btn {
     background: var(--sa-gold-soft);
     border-color: var(--sa-gold);
@@ -2220,9 +2304,11 @@ html[data-theme=dark] {
   :where(html[data-theme=dark]) .mobile-menu {
     background: var(--sa-green-soft);
     color: var(--dk-accent);}
-  :where(html[data-theme=dark]) .mobile-menu:hover {
+  @media (hover: hover) {
+:where(html[data-theme=dark]) .mobile-menu:hover {
     background: var(--sa-green);
     color: #fff;}
+}
   :where(html[data-theme=dark]) .eyebrow {
     color: var(--dk-red);}
   :where(html[data-theme=dark]) .text-link {
@@ -2235,18 +2321,22 @@ html[data-theme=dark] {
     background: var(--dk-surface-2);
     color: var(--dk-accent);
     border-color: var(--dk-border-2);}
-  :where(html[data-theme=dark]) .btn-light:hover {
+  @media (hover: hover) {
+:where(html[data-theme=dark]) .btn-light:hover {
     background: var(--sa-gold-soft);
     border-color: var(--sa-gold);
     color: var(--dk-gold-text);}
+}
   :where(html[data-theme=dark]) .culture-banner .btn-light {
     background: #fff;
     color: var(--sa-green);
     border-color: #dce9df;}
-  :where(html[data-theme=dark]) .culture-banner .btn-light:hover {
+  @media (hover: hover) {
+:where(html[data-theme=dark]) .culture-banner .btn-light:hover {
     background: #fbf1d6;
     border-color: var(--sa-gold);
     color: var(--sa-green);}
+}
   :where(html[data-theme=dark]) .stat-card,
   :where(html[data-theme=dark]) .feature-card,
   :where(html[data-theme=dark]) .panel,
@@ -2290,13 +2380,19 @@ html[data-theme=dark] {
     border-top-color: var(--sa-gold);}
   :where(html[data-theme=dark]) .content-modal {
     border-top-color: var(--sa-green);}
-  :where(html[data-theme=dark]) .feature-card:hover {
+  @media (hover: hover) {
+:where(html[data-theme=dark]) .feature-card:hover {
     border-color: #3d5c48;}
-  :where(html[data-theme=dark]) .video-card:hover {
+}
+  @media (hover: hover) {
+:where(html[data-theme=dark]) .video-card:hover {
     border-color: #3d5c48;}
-  :where(html[data-theme=dark]) .theory-button:hover,
-  :where(html[data-theme=dark]) .resource:hover {
+}
+  @media (hover: hover) {
+:where(html[data-theme=dark]) .theory-button:hover,
+:where(html[data-theme=dark]) .resource:hover {
     border-color: var(--sa-gold);}
+}
   :where(html[data-theme=dark]) .timeline article {
     border-top-color: var(--dk-border);
     border-right-color: var(--dk-border);
@@ -2351,10 +2447,14 @@ html[data-theme=dark] {
   :where(html[data-theme=dark]) .letter-tile img {
     mix-blend-mode: normal;
     background: #fff;}
-  :where(html[data-theme=dark]) .letter-tile.selected,
-  :where(html[data-theme=dark]) .letter-tile.selected:hover {
+  :where(html[data-theme=dark]) .letter-tile.selected{
     background: var(--dk-surface-2);
     color: var(--dk-text);}
+@media (hover: hover) {
+:where(html[data-theme=dark]) .letter-tile.selected:hover {
+    background: var(--dk-surface-2);
+    color: var(--dk-text);}
+}
   :where(html[data-theme=dark]) .letter-detail {
     background:
       linear-gradient(
@@ -2365,8 +2465,10 @@ html[data-theme=dark] {
     border-top-color: var(--sa-green);}
   :where(html[data-theme=dark]) .sign-image-wrap {
     border-color: var(--dk-border-2);}
-  :where(html[data-theme=dark]) .letter-detail .sign-image-wrap:hover {
+  @media (hover: hover) {
+:where(html[data-theme=dark]) .letter-detail .sign-image-wrap:hover {
     border-color: #3d5c48;}
+}
   :where(html[data-theme=dark]) .big-letter {
     background: var(--dk-surface-2);
     color: var(--dk-red);
@@ -2398,9 +2500,11 @@ html[data-theme=dark] {
   :where(html[data-theme=dark]) .modal-close {
     background: var(--sa-green-soft);
     color: var(--dk-accent);}
-  :where(html[data-theme=dark]) .modal-close:hover {
+  @media (hover: hover) {
+:where(html[data-theme=dark]) .modal-close:hover {
     background: var(--sa-red);
     color: #fff;}
+}
   :where(html[data-theme=dark]) .footer {
     background: #101812;
     color: var(--muted);}
@@ -2408,8 +2512,10 @@ html[data-theme=dark] {
     color: var(--dk-accent);}
   :where(html[data-theme=dark]) .sa-footer-mid a {
     color: var(--dk-red);}
-  :where(html[data-theme=dark]) .sa-footer-mid a:hover {
+  @media (hover: hover) {
+:where(html[data-theme=dark]) .sa-footer-mid a:hover {
     color: var(--dk-accent);}
+}
 }
 /* ==========================================================================
    4 · VISOR DEL GLOSARIO
@@ -2444,8 +2550,10 @@ body.glo-lock {
 .glo-card-go {
   font-weight: 800;
   color: var(--green);}
+@media (hover: hover) {
 .glo-card:hover .glo-card-go {
   text-decoration: underline;}
+}
 .glo-card:focus-visible,
 .glo-thumb:focus-visible,
 .glo-tool:focus-visible,
@@ -2494,8 +2602,10 @@ body.glo-lock {
   align-items: center;
   justify-content: center;
   gap: 7px;}
+@media (hover: hover) {
 .glo-tool:hover {
   border-color: #c49a43;}
+}
 .glo-tool:disabled {
   opacity: .4;
   cursor: default;}
@@ -2565,8 +2675,10 @@ html[data-theme=dark] .glo-tool {
   left: 8px;}
 .glo-arrow-next {
   right: 8px;}
+@media (hover: hover) {
 .glo-arrow:hover {
   background: #08462d;}
+}
 .glo-arrow:disabled {
   opacity: .25;
   cursor: default;}
@@ -2702,9 +2814,11 @@ html[data-theme=dark] .glo-foot .btn-light.is-section {
   color: var(--muted);
   text-align: center;
   padding: 4px 0 1px;}
+@media (hover: hover) {
 .glo-thumb:hover {
   border-color: #c49a43;
   transform: translateY(-2px);}
+}
 .glo-thumb.in-sec {
   border-color: var(--green);
   background: var(--green-3);}
@@ -3079,10 +3193,22 @@ body::before {
   background: var(--ui-surface-2);
   border: 1px solid var(--line);
   box-shadow: none;}
+@media (hover: hover) {
 .brand:hover {
   box-shadow: none;
   border-color: var(--sa-gold);}
-.brand-mark,
+}
+.brand-mark{
+  width: 56px;
+  height: 62px;
+  flex: 0 0 56px;
+  padding: 5px;
+  border: 0;
+  border-radius: 14px;
+  box-shadow: none;
+  transform: none;
+  background: #fff;}
+@media (hover: hover) {
 .brand:hover .brand-mark {
   width: 56px;
   height: 62px;
@@ -3093,6 +3219,7 @@ body::before {
   box-shadow: none;
   transform: none;
   background: #fff;}
+}
 .brand-text strong {
   font-size: 20px;
   letter-spacing: .06em;}
@@ -3119,8 +3246,10 @@ body::before {
   padding: 6px 12px;
   border-radius: var(--ui-r-control);
   gap: 11px;}
+@media (hover: hover) {
 .nav-link:hover {
   transform: none;}
+}
 .nav-link.active {
   background: var(--sa-green);
   box-shadow: 0 6px 16px rgba(0, 112, 48, .25);}
@@ -3215,8 +3344,10 @@ body::before {
   border-radius: var(--ui-r-control);
   font-weight: 700;
   justify-content: center;}
+@media (hover: hover) {
 .btn-primary:hover {
   transform: none;}
+}
 .hero {
   grid-template-columns: 1.2fr .8fr;
   min-height: 350px;
@@ -3255,9 +3386,11 @@ body::before {
   min-height: 168px;
   border-radius: var(--ui-r-card);
   box-shadow: var(--ui-shadow);}
+@media (hover: hover) {
 .feature-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--ui-shadow-up);}
+}
 .feature-icon {
   width: 42px;
   height: 42px;
@@ -3372,8 +3505,10 @@ body::before {
 .video-card {
   border-radius: var(--ui-r-card);
   box-shadow: var(--ui-shadow);}
+@media (hover: hover) {
 .video-card:hover {
   box-shadow: var(--ui-shadow-up);}
+}
 .video-info {
   padding: 18px 20px 20px;}
 .video-info h3 {
@@ -3401,9 +3536,11 @@ body::before {
 .theory-button {
   display: flex;
   flex-direction: column;}
+@media (hover: hover) {
 .theory-button:hover {
   transform: translateY(-2px);
   box-shadow: var(--ui-shadow-up);}
+}
 .theory-card .num {
   font-size: 12px;
   letter-spacing: .08em;}
@@ -3713,10 +3850,15 @@ h2 {
 .glo-tool,
 .lv-btn {
   border-radius: 9999px;}
+@media (hover: hover) {
 .btn:hover,
-.teacher-btn:hover,
-.theme-toggle:hover {
+.teacher-btn:hover {
   box-shadow: var(--ui-shadow-up);}
+}
+@media (hover: hover) {
+  .theme-toggle:hover {
+    box-shadow: var(--ui-shadow-up);}
+}
 .hero-art {
   transform: rotate(-1.5deg);}
 .hero-art:after {
@@ -3776,9 +3918,11 @@ html:not([data-theme=dark]) .feature-card[data-go]:nth-child(3n) .feature-icon {
   border-color: transparent;}
 html:not([data-theme=dark]) .feature-card[data-go] .feature-icon {
   color: var(--sa-green-deep);}
+@media (hover: hover) {
 html:not([data-theme=dark]) .feature-card[data-go]:hover .feature-icon {
   background: var(--sa-green);
   color: #fff;}
+}
 html:not([data-theme=dark]) .nav-link:not(.active) .nav-icon {
   background: var(--sa-green-soft);
   color: var(--sa-green);}
@@ -4405,8 +4549,10 @@ html[data-theme=dark] .glo-card-meta {
   color: #8fe0ae;}
 html[data-theme=dark] .glo-card-go {
   color: #7fdca3;}
+@media (hover: hover) {
 html[data-theme=dark] .glo-card:hover .glo-card-go {
   color: #b4f0c9;}
+}
 .glo-arrow:disabled,
 .lv-arrow:disabled {
   opacity: 0;
@@ -4542,7 +4688,9 @@ html[data-theme="dark"] #app .activity-sign-image { background: #111a14; border-
 html[data-theme="dark"] #app .activity-game-box .question-count { color: #c3d8c8;}
 html[data-theme="dark"] #app .activity-game-box .progress { background: #34463a;}
 html[data-theme="dark"] #app .activity-game-box .answer-btn { background: #202e25; border-color: #435748; color: #edf5ef;}
+@media (hover: hover) {
 html[data-theme="dark"] #app .activity-game-box .answer-btn:not(:disabled):hover { background: #2a4031; border-color: #75bd8c;}
+}
 html[data-theme="dark"] #app .activity-game-box .answer-btn.correct { background: #214a31; border-color: #5fb77a; color: #eaffef;}
 html[data-theme="dark"] #app .activity-game-box .answer-btn.wrong { background: #512b2b; border-color: #c76b6b; color: #fff0f0;}
 html[data-theme="dark"] #app .activity-results { background: #17231c; border-color: #34483a; color: #edf5ef;}
@@ -4657,12 +4805,19 @@ html[data-theme="dark"] #app .activity-result-score { color: #91d9a8;}
   }
 }
 
-html[data-theme=dark] .letter-tile.selected,
+html[data-theme=dark] .letter-tile.selected{
+  background: #1d5a3a;
+  border-color: var(--sa-gold);
+  color: #fff;
+  box-shadow: 0 0 0 3px rgba(224, 163, 26, .38), 0 8px 20px rgba(0, 0, 0, .45);
+}
+@media (hover: hover) {
 html[data-theme=dark] .letter-tile.selected:hover {
   background: #1d5a3a;
   border-color: var(--sa-gold);
   color: #fff;
   box-shadow: 0 0 0 3px rgba(224, 163, 26, .38), 0 8px 20px rgba(0, 0, 0, .45);
+}
 }
 html[data-theme=dark] .letter-tile.selected img {
   background: #fff;
