@@ -1,3 +1,9 @@
+
+SUPER IMPORTANTE ANTES DE HACER CUALQUIR CAMBIO
+-------------------------------------------------------------------------------------
+Algo importante para ti: si cambias cualquier archivo del proyecto, sube el número de VERSION en la primera líneas de sw.js (por ejemplo, de lsec-v4 a lsec-v5). Si no, los teléfonos que ya visitaron la página pueden seguir viendo imágenes viejas. Con los textos, el CSS y el JS no hay problema, porque se actualizan solos cuando hay internet. Está explicado en el README.
+-------------------------------------------------------------------------------------
+
 # LSEC San Agustín
 
 Plataforma educativa de la Unidad Educativa San Agustín para acercarse a la Lengua de Señas Ecuatoriana (LSEC). Está hecha con HTML, CSS y JavaScript puro: no requiere React, Node.js, npm, cuentas ni base de datos.
@@ -91,7 +97,6 @@ El contenido se genera con JavaScript. Si ves el menú pero el centro vacío:
 - Efectos hover (`:hover`) en TODOS los botones, tarjetas y enlaces: ahora solo se aplican con mouse (`@media (hover: hover)`). En el teléfono ya no se quedan «pegados» después de tocar. En computadora se ven exactamente igual.
 
 ----------------------------------------------------------------------
-Algo importante para ti: si cambias cualquier archivo del proyecto, sube el número de VERSION en la primera líneas de sw.js (por ejemplo, de lsec-v4 a lsec-v5). Si no, los teléfonos que ya visitaron la página pueden seguir viendo imágenes viejas. Con los textos, el CSS y el JS no hay problema, porque se actualizan solos cuando hay internet. Está explicado en el README.
 
-----------------------------------------------------------------------
-la pagina ya fue actualizada a lsec-v4
+
+
