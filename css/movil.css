@@ -358,3 +358,73 @@ body {
     padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
   }
 }
+
+/* ==========================================================================
+   12 · BARRA DEL LECTOR EN TELÉFONO: una sola línea y botones pequeños
+   ========================================================================== */
+@media (max-width: 760px) and (orientation: portrait) {
+  /* «Menú principal» a la izquierda y las herramientas a la derecha, en la misma línea */
+  .glo-bar {
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+  }
+  .glo-bar .glo-menu-btn {
+    flex: 0 1 auto;
+    min-width: 0;
+    height: 36px;
+    min-height: 36px;
+    padding: 0 12px;
+    font-size: 13px;
+    gap: 5px;
+    white-space: nowrap;
+  }
+  .glo-bar .glo-tools {
+    flex: 0 0 auto;
+    margin-left: 0;
+    gap: 4px;
+  }
+  .glo-bar .glo-tool {
+    width: 36px;
+    min-width: 36px;
+    height: 36px;
+    min-height: 36px;
+    padding: 0;
+    font-size: 17px;
+  }
+  .glo-bar .glo-fs {
+    width: 36px;
+  }
+  .glo-bar .glo-ico {
+    width: 18px;
+    height: 18px;
+  }
+  .glo-bar .glo-zoom {
+    min-width: 40px;
+    font-size: 12px;
+  }
+  .glo-bar .glo-title {
+    order: 3;
+    flex: 0 0 100%;
+  }
+  /* Con el lector abierto, el recuadro blanco usa menos margen lateral para que todo quepa */
+  .glo-panel:has(.glo-reader:not([hidden])):not(:has(.glo-pseudo)) {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+}
+
+/* Botones de abajo (Anterior / Siguiente): compactos, sin ovalarse con textos largos */
+@media (max-width: 760px) {
+  .glo-foot .btn {
+    min-height: 40px;
+    padding: 8px 14px;
+    font-size: 13px;
+    line-height: 1.25;
+  }
+  .glo-foot .btn.is-section {
+    border-radius: 18px;
+  }
+}
