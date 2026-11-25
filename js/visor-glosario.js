@@ -219,16 +219,20 @@
     var prevSec = prevSection();
     var backSection = isFirst && !!prevSec;
     el.prev.disabled = isFirst && !prevSec; el.arrowPrev.disabled = isFirst && !prevSec;
-    el.prev.textContent = backSection ? "← Sección anterior: " + prevSec.title : "← Anterior";
+    var prevLbl = backSection ? "Sección anterior: " + prevSec.title : "Anterior";
+    el.prev.innerHTML = '<span class="glo-arr" aria-hidden="true">←</span><span class="glo-lbl"> ' + prevLbl + '</span>';
+    el.prev.title = prevLbl;
     el.prev.classList.toggle("is-section", backSection);
     el.arrowPrev.setAttribute("aria-label", backSection ? "Sección anterior" : "Página anterior");
 
     var nextSec = nextSection();
     var label;
-    if (!isLast) label = "Siguiente →";
-    else if (nextSec) label = "Siguiente sección: " + nextSec.title + " →";
-    else label = "Terminar y volver al menú ✓";
-    el.next.textContent = label;
+    if (!isLast) label = "Siguiente";
+    else if (nextSec) label = "Siguiente sección: " + nextSec.title;
+    else label = "Terminar y volver al menú";
+    var nextArr = (isLast && !nextSec) ? "✓" : "→";
+    el.next.innerHTML = '<span class="glo-lbl">' + label + ' </span><span class="glo-arr" aria-hidden="true">' + nextArr + '</span>';
+    el.next.title = label;
     el.next.classList.toggle("is-section", isLast);
     el.arrowNext.disabled = false;
     el.arrowNext.setAttribute("aria-label", isLast ? (nextSec ? "Siguiente sección" : "Volver al menú") : "Página siguiente");
@@ -371,16 +375,8 @@
   /* ---------- Pantalla completa (nativa con respaldo para iPhone/iPad) ---------- */
   function isFull() { return state.pseudo || (fsEl() === el.reader); }
 
-  // En teléfono se usa el modo alterno (capa que cubre toda la pantalla): la pantalla completa nativa
-  // del navegador muestra siempre el aviso «Arrastra el dedo desde la parte superior…», que no se puede ocultar.
-  function isPhone() {
-    var coarse = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
-    var sw = window.screen ? Math.min(window.screen.width, window.screen.height) : 9999;
-    return !!coarse && sw <= 600;
-  }
-
+  // Pantalla completa nativa (oculta también las barras del navegador). Si el navegador no la permite, cae al modo alterno.
   function enterFull() {
-    if (isPhone()) { setPseudo(true); return; }
     var r = el.reader, req = r.requestFullscreen || r.webkitRequestFullscreen;
     if (req) {
       try {

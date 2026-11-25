@@ -428,3 +428,22 @@ body {
     border-radius: 18px;
   }
 }
+
+/* ==========================================================================
+   13 · TELÉFONO HORIZONTAL: sin «Modo clase» y botones de página solo con flechas
+   ========================================================================== */
+@media (orientation: landscape) and (max-height: 520px) and (pointer: coarse) {
+  .teacher-btn {
+    display: none;
+  }
+  .glo-foot .glo-lbl {
+    display: none;
+  }
+  .glo-foot .btn {
+    min-width: 64px;
+    padding: 8px 22px;
+    font-size: 20px;
+    line-height: 1;
+    justify-content: center;
+  }
+}
