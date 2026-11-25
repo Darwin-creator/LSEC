@@ -37,7 +37,12 @@
   ];
   var FULL = { id: "todo", icon: "▤", title: "Documento completo", from: 1, to: TOTAL, desc: "" };
 
-  var state = { sec: null, page: 0, zoom: 0, pseudo: false };
+  var MAXZ = 4;
+  var ICON_ENTER = '<svg class="glo-ico" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>';
+  var ICON_EXIT = '<svg class="glo-ico" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>';
+
+  // zoom = nivel de los botones (0 = ajustado) · z = factor real (1 a MAXZ), también lo mueve el gesto de pellizco
+  var state = { sec: null, page: 0, zoom: 0, z: 1, pseudo: false };
   var el = {};
 
   function pad(n) { return (n < 10 ? "0" : "") + n; }
@@ -82,7 +87,7 @@
               '<button type="button" class="glo-tool" data-glo="zoomout" aria-label="Alejar" title="Alejar">−</button>' +
               '<span class="glo-zoom" id="gloZoom">100%</span>' +
               '<button type="button" class="glo-tool" data-glo="zoomin" aria-label="Acercar" title="Acercar">+</button>' +
-              '<button type="button" class="glo-tool glo-fs" data-glo="fs" id="gloFs" aria-label="Pantalla completa" title="Pantalla completa (F)">⛶ <span>Pantalla completa</span></button>' +
+              '<button type="button" class="glo-tool glo-fs" data-glo="fs" id="gloFs" aria-label="Pantalla completa" title="Pantalla completa (F)">' + ICON_ENTER + ' <span>Pantalla completa</span></button>' +
             '</div>' +
           '</div>' +
           '<div class="glo-stage">' +
@@ -116,14 +121,76 @@
       count: $("#gloCount", root), img: $("#gloImg", root), scroll: $("#gloScroll", root),
       strip: $("#gloStrip", root), note: $("#gloNote", root), foot: $("#gloFoot", root),
       prev: $("#gloPrev", root), next: $("#gloNext", root), zoom: $("#gloZoom", root),
-      fs: $("#gloFs", root), thumbs: $("#gloThumbs", root),
+      fs: $("#gloFs", root), thumbs: $("#gloThumbs", root), stage: $(".glo-stage", root),
       arrowPrev: $(".glo-arrow-prev", root), arrowNext: $(".glo-arrow-next", root)
     };
     state.pseudo = false;
     document.body.classList.remove("glo-lock");
     if (state.sec) paint(); else paintThumbs();
     bindSwipe();
+    bindPinch();
+    state.autohide = false;
+    syncAutoHide();
   }
+
+  /* ---------- Vista previa que se oculta (cuando hay zoom del navegador) ---------- */
+  // Con zoom en el navegador el visor queda más alto que la ventana y la tira de
+  // miniaturas estorba. En ese caso (y solo con mouse) la tira pasa a ser una capa
+  // dentro del visor: queda oculta abajo y sube cuando el puntero baja.
+  var hoverCapable = window.matchMedia ? window.matchMedia("(hover: hover) and (pointer: fine)") : { matches: true };
+
+  function browserZoom() {
+    var ratio = window.outerWidth && window.innerWidth ? window.outerWidth / window.innerWidth : 1;
+    return ratio > 0 ? ratio : 1;
+  }
+
+  function wantsAutoHide() {
+    var h = window.innerHeight, dpr = window.devicePixelRatio || 1;
+    // Zoom del navegador (≈125 % o más), o ventana baja por zoom: la tira se oculta sola.
+    return !!hoverCapable.matches && (browserZoom() >= 1.25 || (dpr >= 1.45 && h < 900) || h <= 800);
+  }
+
+  function syncAutoHide() {
+    if (!el.reader || !el.stage || !el.strip) return;
+    var on = wantsAutoHide();
+    if (on === !!state.autohide) return;
+    state.autohide = on;
+    el.reader.classList.toggle("glo-autohide", on);
+    if (on) el.stage.appendChild(el.strip);
+    else el.reader.insertBefore(el.strip, el.note);
+    showStrip(false);
+  }
+
+  // Deja libres las barras de desplazamiento (abajo y a la derecha) para que la persona
+  // pueda seguir moviendo la página con zoom aunque la tira esté visible.
+  function syncScrollGap() {
+    if (!el.stage || !el.scroll) return;
+    var sbh = Math.max(0, el.scroll.offsetHeight - el.scroll.clientHeight);
+    var sbw = Math.max(0, el.scroll.offsetWidth - el.scroll.clientWidth);
+    el.stage.style.setProperty("--glo-sbh", sbh + "px");
+    el.stage.style.setProperty("--glo-sbw", sbw + "px");
+  }
+
+  function showStrip(on) {
+    if (!el.reader) return;
+    el.reader.classList.toggle("glo-strip-show", !!on && !!state.autohide);
+  }
+
+  function onPointerMove(e) {
+    if (!state.autohide || !state.sec || !el.reader || el.reader.hidden) return;
+    var r = el.stage.getBoundingClientRect();
+    var zone = Math.max(96, (el.strip.offsetHeight || 0) + 24);
+    // «Abajo» = la franja inferior del visor o cualquier punto por debajo de él (botones Anterior/Siguiente).
+    var inside = e.clientX >= r.left && e.clientX <= r.right;
+    var low = e.clientY >= r.bottom - zone && (inside || e.clientY > r.bottom);
+    var inBand = e.clientY >= r.top && e.clientY <= r.bottom + 90;
+    if (low && inBand) syncScrollGap();
+    showStrip(low && inBand);
+  }
+
+  document.addEventListener("mousemove", onPointerMove, { passive: true });
+  document.addEventListener("mouseleave", function () { showStrip(false); });
+  window.addEventListener("resize", syncAutoHide);
 
   /* ---------- Pintado ---------- */
   function paintThumbs() {
@@ -168,6 +235,7 @@
 
     // Tira de miniaturas (solo si la sección tiene más de una página)
     el.strip.hidden = total <= 1;
+    el.reader.classList.toggle("glo-no-strip", total <= 1);
     if (total > 1) {
       var h = "";
       for (var n = s.from; n <= s.to; n++) {
@@ -217,9 +285,11 @@
     return Math.min(el.scroll.clientWidth, el.scroll.clientHeight * nw / nh);
   }
 
-  function applyZoom(keep) {
-    var z = ZOOMS[state.zoom], sc = el.scroll, rx = 0.5, ry = 0.5;
-    if (keep && sc.scrollWidth > 0) {
+  // focal = {fx, fy, cx, cy}: punto de la imagen (en proporción) que debe quedar bajo los dedos.
+  function applyZoom(keep, focal) {
+    var z = state.z, sc = el.scroll, rx = 0.5, ry = 0.5, cx = sc.clientWidth / 2, cy = sc.clientHeight / 2;
+    if (focal) { rx = focal.fx; ry = focal.fy; cx = focal.cx; cy = focal.cy; }
+    else if (keep && sc.scrollWidth > 0) {
       rx = (sc.scrollLeft + sc.clientWidth / 2) / sc.scrollWidth;
       ry = (sc.scrollTop + sc.clientHeight / 2) / sc.scrollHeight;
     }
@@ -227,15 +297,18 @@
     var f = z > 1 ? fitWidth() : 0;
     el.img.style.width = f ? Math.round(f * z) + "px" : "";
     el.zoom.textContent = Math.round(z * 100) + "%";
-    if (keep && z > 1) {
-      sc.scrollLeft = rx * sc.scrollWidth - sc.clientWidth / 2;
-      sc.scrollTop = ry * sc.scrollHeight - sc.clientHeight / 2;
+    if ((keep || focal) && z > 1) {
+      sc.scrollLeft = rx * sc.scrollWidth - cx;
+      sc.scrollTop = ry * sc.scrollHeight - cy;
     } else { sc.scrollLeft = 0; sc.scrollTop = 0; }
+    syncScrollGap();
   }
+
+  function resetZoom() { state.zoom = 0; state.z = 1; }
 
   /* ---------- Acciones ---------- */
   function openSection(s, page) {
-    state.sec = s; state.page = page || s.from; state.zoom = 0;
+    state.sec = s; state.page = page || s.from; resetZoom();
     paint();
     if (!fsEl() && !state.pseudo) {
       el.reader.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -255,16 +328,16 @@
   function step(dir) {
     var s = state.sec; if (!s) return;
     if (dir < 0) {
-      if (state.page > s.from) { state.page--; state.zoom = 0; paint(); }
+      if (state.page > s.from) { state.page--; resetZoom(); paint(); }
       else {
         var ps = prevSection();
-        if (ps) { state.sec = ps; state.page = ps.from; state.zoom = 0; paint(); toast("Sección: " + ps.title); }
+        if (ps) { state.sec = ps; state.page = ps.from; resetZoom(); paint(); toast("Sección: " + ps.title); }
       }
     } else {
-      if (state.page < s.to) { state.page++; state.zoom = 0; paint(); }
+      if (state.page < s.to) { state.page++; resetZoom(); paint(); }
       else {
         var ns = nextSection();
-        if (ns) { state.sec = ns; state.page = ns.from; state.zoom = 0; paint(); toast("Sección: " + ns.title); }
+        if (ns) { state.sec = ns; state.page = ns.from; resetZoom(); paint(); toast("Sección: " + ns.title); }
         else backToMenu();
       }
     }
@@ -272,16 +345,20 @@
 
   function goPage(n) {
     var s = state.sec;
-    if (s && n >= s.from && n <= s.to) { state.page = n; state.zoom = 0; paint(); return; }
+    if (s && n >= s.from && n <= s.to) { state.page = n; resetZoom(); paint(); return; }
     var found = null;
     for (var i = 0; i < SECTIONS.length; i++) if (n >= SECTIONS[i].from && n <= SECTIONS[i].to) { found = SECTIONS[i]; break; }
     openSection(found || FULL, n);
   }
 
+  // Botones + y −: saltan al siguiente nivel (100, 150, 200, 250, 300 %) a partir del zoom actual.
   function zoom(d) {
-    var z = Math.max(0, Math.min(ZOOMS.length - 1, state.zoom + d));
-    if (z === state.zoom) return;
-    state.zoom = z; applyZoom(true);
+    var cur = state.z, target = cur, i;
+    if (d > 0) { for (i = 0; i < ZOOMS.length; i++) if (ZOOMS[i] > cur + 0.01) { target = ZOOMS[i]; break; } }
+    else { for (i = ZOOMS.length - 1; i >= 0; i--) if (ZOOMS[i] < cur - 0.01) { target = ZOOMS[i]; break; } }
+    if (Math.abs(target - cur) < 0.01) return;
+    state.z = target; state.zoom = Math.max(0, ZOOMS.indexOf(target));
+    applyZoom(true);
   }
 
   function toast(msg) {
@@ -326,25 +403,66 @@
     if (!el.reader) return;
     var on = isFull();
     el.reader.classList.toggle("is-full", on);
-    el.fs.innerHTML = on ? "⮌ <span>Salir de pantalla completa</span>" : "⛶ <span>Pantalla completa</span>";
+    syncAutoHide();
+    el.fs.innerHTML = on ? ICON_EXIT + " <span>Salir de pantalla completa</span>" : ICON_ENTER + " <span>Pantalla completa</span>";
     el.fs.setAttribute("aria-label", on ? "Salir de pantalla completa" : "Pantalla completa");
     el.fs.title = on ? "Salir de pantalla completa (Esc)" : "Pantalla completa (F)";
     if (!on) document.body.classList.remove("glo-lock");
-    setTimeout(function () { if (state.sec && state.zoom > 0) applyZoom(true); }, 80);
+    setTimeout(function () { if (state.sec && state.z > 1) applyZoom(true); }, 80);
     if (on && !syncFull._told && window.innerWidth < 760 && window.innerHeight > window.innerWidth) {
       syncFull._told = true; toast("Gira tu celular para ver la página más grande");
     }
   }
 
-  window.addEventListener("resize", function () { if (el.reader && state.sec && state.zoom > 0) applyZoom(true); });
+  window.addEventListener("resize", function () { if (el.reader && state.sec && state.z > 1) applyZoom(true); });
   document.addEventListener("fullscreenchange", syncFull);
   document.addEventListener("webkitfullscreenchange", syncFull);
+
+  /* ---------- Zoom con los dedos (pellizcar para acercar o alejar) ---------- */
+  function bindPinch() {
+    var sc = el.scroll, p = null;
+    function dist(t) { var dx = t[0].clientX - t[1].clientX, dy = t[0].clientY - t[1].clientY; return Math.sqrt(dx * dx + dy * dy); }
+    function start(e) {
+      if (e.touches.length !== 2) return;
+      var r = sc.getBoundingClientRect(), t = e.touches;
+      var cx = (t[0].clientX + t[1].clientX) / 2 - r.left, cy = (t[0].clientY + t[1].clientY) / 2 - r.top;
+      p = { d0: dist(t) || 1, z0: state.z };
+      if (!el.img.naturalWidth) { p = null; return; }
+      e.preventDefault();
+    }
+    function move(e) {
+      if (!p || e.touches.length !== 2) return;
+      e.preventDefault();
+      var r = sc.getBoundingClientRect(), t = e.touches;
+      var cx = (t[0].clientX + t[1].clientX) / 2 - r.left, cy = (t[0].clientY + t[1].clientY) / 2 - r.top;
+      var nz = Math.max(1, Math.min(MAXZ, p.z0 * dist(t) / p.d0));
+      if (Math.abs(nz - state.z) < 0.005) return;
+      var fx = sc.scrollWidth > 0 ? (sc.scrollLeft + cx) / sc.scrollWidth : 0.5;
+      var fy = sc.scrollHeight > 0 ? (sc.scrollTop + cy) / sc.scrollHeight : 0.5;
+      state.z = nz;
+      state.zoom = 0; for (var i = 0; i < ZOOMS.length; i++) if (ZOOMS[i] <= nz + 0.01) state.zoom = i;
+      applyZoom(true, { fx: fx, fy: fy, cx: cx, cy: cy });
+    }
+    function end(e) {
+      if (!p) return;
+      if (e.touches.length < 2) {
+        p = null;
+        if (state.z < 1.05) { resetZoom(); applyZoom(false); }
+      }
+    }
+    sc.addEventListener("touchstart", start, { passive: false });
+    sc.addEventListener("touchmove", move, { passive: false });
+    sc.addEventListener("touchend", end, { passive: true });
+    sc.addEventListener("touchcancel", end, { passive: true });
+    // Safari de iPhone/iPad: evita que el pellizco amplíe toda la página
+    ["gesturestart", "gesturechange"].forEach(function (n) { sc.addEventListener(n, function (e) { e.preventDefault(); }); });
+  }
 
   /* ---------- Gestos táctiles: deslizar para cambiar de página ---------- */
   function bindSwipe() {
     var x0 = null, y0 = null, t0 = 0;
     el.scroll.addEventListener("touchstart", function (e) {
-      if (e.touches.length !== 1 || state.zoom > 0) { x0 = null; return; }
+      if (e.touches.length !== 1 || state.z > 1) { x0 = null; return; }
       x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = Date.now();
     }, { passive: true });
     el.scroll.addEventListener("touchend", function (e) {
@@ -353,8 +471,8 @@
       x0 = null;
       if (Date.now() - t0 < 700 && Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1);
     }, { passive: true });
-    el.img.addEventListener("dblclick", function () { state.zoom = state.zoom === 0 ? 2 : 0; applyZoom(true); });
-    el.img.addEventListener("load", function () { if (state.zoom > 0) applyZoom(true); });
+    el.img.addEventListener("dblclick", function () { if (state.z > 1) resetZoom(); else { state.zoom = 2; state.z = ZOOMS[2]; } applyZoom(true); });
+    el.img.addEventListener("load", function () { if (state.z > 1) applyZoom(true); });
   }
 
   /* ---------- Eventos ---------- */

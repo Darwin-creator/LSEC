@@ -19,6 +19,8 @@ function hdAvailable(){
   return hdProbe;
 }
 
+const LV_ICON_ENTER = '<svg class="lv-ico" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>';
+const LV_ICON_EXIT = '<svg class="lv-ico" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>';
 function fullscreenSupported(el){ return !!(el.requestFullscreen || el.webkitRequestFullscreen); }
 function fullscreenElement(){ return document.fullscreenElement || document.webkitFullscreenElement || null; }
 
@@ -34,7 +36,7 @@ function buildLetterViewer(){
     <div class="lv-bar">
       <span class="lv-count" aria-live="polite"></span>
       <div class="lv-tools">
-        <button class="lv-btn" data-lv="fs" type="button" aria-label="Pantalla completa">⛶ <span>Pantalla completa</span></button>
+        <button class="lv-btn" data-lv="fs" type="button" aria-label="Pantalla completa">${LV_ICON_ENTER} <span>Pantalla completa</span></button>
         <button class="lv-btn lv-close" data-lv="close" type="button" aria-label="Cerrar visor">✕</button>
       </div>
     </div>
@@ -130,7 +132,7 @@ function syncFullscreenLabel(){
   const b = letterViewer?.querySelector('[data-lv="fs"]');
   if(!b) return;
   const on = !!fullscreenElement();
-  b.innerHTML = on ? "⮌ <span>Salir de pantalla completa</span>" : "⛶ <span>Pantalla completa</span>";
+  b.innerHTML = on ? LV_ICON_EXIT + " <span>Salir de pantalla completa</span>" : LV_ICON_ENTER + " <span>Pantalla completa</span>";
   b.setAttribute("aria-label", on ? "Salir de pantalla completa" : "Pantalla completa");
 }
 document.addEventListener("fullscreenchange", syncFullscreenLabel);

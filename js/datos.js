@@ -110,6 +110,131 @@ function getTheoryModules() {
 ${theoryExpansion[i] || ""}`]);
 }
 
+/* Preguntas de «Para conversar en clase»: 3 por cada módulo de «Aprende LSEC», en el mismo orden
+   que getTheoryModules() (01 a 30). Cada lectura tiene sus propias preguntas de reflexión. */
+const theoryPrompts = [
+  // 01 ¿Qué es la LSEC?
+  ["¿Por qué decimos que la LSEC no es «español con las manos»? Explica con tus palabras qué significa tener recursos lingüísticos propios.",
+   "¿Qué diferencia hay entre recibir información por la vista y recibirla por el oído? ¿Cómo cambia eso la forma de comunicarse?",
+   "¿Qué pasaría en una conversación si solo usáramos las manos y olvidáramos el rostro y el cuerpo?"],
+  // 02 Una lengua, no un código universal
+  ["Si viajas a otro país y ves una seña distinta, ¿por qué no deberías asumir que significa lo mismo que en Ecuador?",
+   "¿Qué ejemplos de lenguas orales te ayudan a entender que cada comunidad desarrolla su propia lengua?",
+   "¿Qué problemas podría causar creer que existe una sola lengua de señas para todo el mundo?"],
+  // 03 ¿Para qué se utiliza?
+  ["¿En qué situaciones de tu día sería indispensable poder comunicarse en LSEC o contar con apoyos accesibles?",
+   "¿Cómo reduce una barrera comunicativa el aprender LSEC? Piensa en un ejemplo dentro de tu colegio.",
+   "¿Qué diferencia hay entre participar en una actividad y solo estar presente? Relaciónalo con la lectura."],
+  // 04 Elementos de una seña
+  ["Elige una seña que conozcas y describe su configuración, orientación, lugar de articulación y movimiento.",
+   "¿Por qué crees que un cambio mínimo en uno de los elementos puede modificar el significado de una seña?",
+   "¿Qué componentes no manuales observarías al ver a alguien señar y qué información podrían aportar?"],
+  // 05 Expresión facial y corporal
+  ["¿Por qué la lectura afirma que el rostro y el cuerpo «no son adornos»? ¿Qué argumentos da?",
+   "Piensa en tu propia manera de hablar: ¿cuándo cambia el sentido de una frase según el gesto o la mirada?",
+   "¿Qué riesgo hay en exagerar expresiones sin conocer la función que cumplen en la lengua?"],
+  // 06 Respeto y comunicación
+  ["¿Cuál de las recomendaciones de la lectura te parece más fácil de olvidar y por qué es importante recordarla?",
+   "¿Cómo cambiaría una conversación si alguien se tapa el rostro o las manos mientras se comunica?",
+   "¿Por qué es mejor preguntar cómo prefiere comunicarse una persona que suponerlo?"],
+  // 07 Historia y comunidad
+  ["¿Qué papel crees que tuvo la organización de las personas sordas en el reconocimiento de la LSEC?",
+   "¿Por qué una lengua no puede imponerse por decreto ni por la decisión aislada de una institución?",
+   "¿Qué preguntas harías a una asociación de personas sordas para conocer mejor la historia de su comunidad?"],
+  // 08 Alfabeto dactilológico
+  ["¿En qué situaciones sería útil deletrear con el alfabeto manual y en cuáles no?",
+   "¿Por qué deletrear letra por letra no es lo mismo que comunicarse en LSEC?",
+   "Explica a un compañero qué es el alfabeto manual sin decir que sirve para «traducir» todo."],
+  // 09 ¿La LSEC tiene un único fundador?
+  ["¿Por qué resulta engañoso atribuir una lengua natural a una sola persona creadora?",
+   "¿Qué diferencia hay entre quienes documentaron o defendieron la lengua y quienes «la crearon»?",
+   "¿Qué costumbres o tradiciones de tu entorno surgieron sin que exista una persona fundadora?"],
+  // 10 Primeras iniciativas educativas en Ecuador
+  ["¿Por qué la historia educativa no debe confundirse con el nacimiento de la LSEC?",
+   "¿Qué pudo cambiar en la vida de un niño sordo de Quito cuando se crearon espacios de enseñanza para él?",
+   "¿Qué ideas sobre la sordera podrían haber influido en la forma de enseñar en cada época?"],
+  // 11 Comunidad sorda y organización
+  ["¿Qué beneficios puede tener para una persona sorda pertenecer a un club o a una asociación?",
+   "¿Por qué la lectura menciona que distintas cronologías registran fechas diferentes para las primeras agrupaciones?",
+   "¿De qué maneras una asociación puede transmitir conocimientos de una generación a otra?"],
+  // 12 Gabriel Román y FENASEC
+  ["¿Qué significa que un diccionario lleve el nombre de una persona como homenaje y no como autoría de la lengua?",
+   "¿Por qué es importante reconocer a dirigentes y organizaciones sin atribuirles la creación de la lengua?",
+   "¿Qué papel puede cumplir una federación nacional en la defensa de los derechos de su comunidad?"],
+  // 13 Proyecto Mano a Mano y primeras publicaciones
+  ["¿Por qué crees que registrar señas con fotografías y dibujos fue un paso importante?",
+   "¿Qué limitaciones tiene una foto o un dibujo para conservar una seña que incluye movimiento?",
+   "La guía de 1988 incluyó vocabulario de Quito y Guayaquil. ¿Qué nos dice eso sobre la variación de la lengua?"],
+  // 14 Diccionario oficial y recursos audiovisuales
+  ["¿Qué ventajas tienen los videos frente a un diccionario impreso para aprender una seña?",
+   "¿Por qué un diccionario, aunque sea muy completo, no sustituye la interacción con personas usuarias de la LSEC?",
+   "¿Por qué es valioso que instituciones distintas colaboren en un recurso como el diccionario web?"],
+  // 15 Glosas y cómo se escribe sobre LSEC
+  ["¿Por qué una glosa en mayúsculas no es lo mismo que una seña escrita?",
+   "Escribe una frase en español y una posible glosa: ¿qué información se pierde en el camino?",
+   "¿Por qué importa la forma de nombrar a la lengua en un texto, por ejemplo en la primera mención?"],
+  // 16 Ortografía del español y LSEC
+  ["¿Por qué no tener una escritura alfabética no significa que la LSEC sea «menos lengua»?",
+   "¿Qué desafíos puede enfrentar una persona sorda al aprender a leer y escribir español como segunda lengua?",
+   "¿Qué lugar ocupa el alfabeto manual cuando un texto incluye nombres propios o siglas?"],
+  // 17 Gramática: orden y estructura
+  ["¿Qué recursos, además de las palabras, usa la LSEC para construir significado?",
+   "¿Por qué traducir palabra por palabra del español a señas puede producir mensajes confusos?",
+   "¿Cómo imaginas que se puede indicar «quién hizo qué» utilizando el espacio?"],
+  // 18 Parámetros de formación de las señas
+  ["Observa una seña en video: ¿qué parámetro te costó más identificar y por qué?",
+   "¿Por qué los parámetros son una guía para observar y no una fórmula para inventar señas?",
+   "¿Qué ventajas tiene ver primero el video completo antes de fijarte en los detalles?"],
+  // 19 Expresión facial, mirada y espacio
+  ["¿Cómo puede la mirada indicar a quién o a qué se refiere la persona que señala?",
+   "¿Qué ocurre en una conversación visual si una persona mira su teléfono mientras la otra se comunica?",
+   "¿Por qué es mejor observar ejemplos completos en contexto que copiar gestos faciales aislados?"],
+  // 20 Variación regional y diversidad
+  ["¿Por qué una variante no debe calificarse automáticamente como incorrecta?",
+   "Además de la región, ¿qué factores podrían explicar que dos personas usen señas diferentes?",
+   "¿Cómo podrías averiguar qué variante se usa en tu ciudad sin imponer la que tú conoces?"],
+  // 21 Alfabeto manual y dactilología
+  ["¿Por qué practicar lentamente y con buena visibilidad ayuda a que te comprendan?",
+   "¿Qué nombres o siglas de tu colegio podrías deletrear? ¿Qué dificultades podrían aparecer?",
+   "¿Por qué conviene seguir un alfabeto manual de una fuente ecuatoriana y no el de otro país?"],
+  // 22 Números, fechas y cantidades
+  ["¿Por qué no se debe deducir una seña numérica a partir de la forma escrita del número?",
+   "Piensa en edad, hora, dinero y orden: ¿por qué podrían expresarse de maneras distintas?",
+   "¿Qué fuentes consultarías para asegurarte de aprender bien los números en LSEC?"],
+  // 23 Cómo aprender vocabulario de forma responsable
+  ["Describe tu propio plan para aprender una seña nueva siguiendo los pasos de la lectura.",
+   "¿Por qué es importante registrar la fuente de lo que aprendes?",
+   "¿Qué riesgos tiene memorizar una imagen aislada como si fuera la seña completa?"],
+  // 24 Materiales didácticos y primeros instrumentos
+  ["¿Qué cambió desde las fotografías de Mano a Mano hasta las plataformas web con video?",
+   "¿Por qué la lectura evita afirmar que existió un único «primer instrumento»?",
+   "¿Qué material didáctico te gustaría crear para tu curso y cómo lo harías accesible?"],
+  // 25 Derechos, accesibilidad e inclusión
+  ["¿Por qué la accesibilidad requiere algo más que buena voluntad?",
+   "¿Qué relación hay entre la lengua de señas y el derecho a la información y a la educación?",
+   "Piensa en un evento de tu colegio: ¿qué apoyos concretos lo harían accesible?"],
+  // 26 Cómo comunicarse con respeto
+  ["Describe los primeros pasos que darías para iniciar una conversación respetuosa con una persona sorda.",
+   "¿Por qué no debemos suponer que todas las personas sordas leen los labios o usan audífonos?",
+   "Si no comprendes lo que alguien te comunica, ¿cómo lo harías saber para evitar incomodidad?"],
+  // 27 La LSEC en la escuela
+  ["¿Qué diferencia hay entre enseñar unas cuantas señas y construir una escuela realmente inclusiva?",
+   "¿Por qué los compañeros oyentes que aprenden vocabulario no sustituyen a intérpretes ni a docentes especializados?",
+   "¿Qué cambios en tu aula garantizarían mejor visibilidad y participación para todos?"],
+  // 28 Cultura e identidad sorda
+  ["¿Por qué decir «la comunidad sorda» no significa que todas las personas sean iguales?",
+   "¿Qué espacios, como el arte, el deporte o las asociaciones, pueden fortalecer el sentido de pertenencia?",
+   "¿Cómo puedes informarte sobre una cultura sin hablar en nombre de quienes la viven?"],
+  // 29 Mitos frecuentes
+  ["Elige un mito de la lectura y explica con tus palabras por qué no es cierto.",
+   "¿Qué consecuencias puede tener creer que la lengua de señas es solo mímica?",
+   "¿Cómo puedes comprobar si una afirmación sobre la LSEC es un mito o un dato confiable?"],
+  // 30 Fuentes y límites de la información histórica
+  ["¿Por qué dos fuentes serias pueden dar fechas distintas para un mismo hecho?",
+   "¿Qué diferencia hay entre un hecho documentado y una interpretación?",
+   "¿Qué fuentes consultarías para ampliar un dato histórico y cómo las compararías?"]
+];
+
 const extraVideoPreviewIds = ["tC59RtWWekc", "qDUAJWmD-Rc", "Z631p3qwiPM", "eJUXB3iFNLo", "rjknZV6-gnE", "h_KJuCCbfFk"];
 const activityQuestionBank = [
   { category: "Fundamentos de LSEC", type: "Opción múltiple", q: "¿La LSEC es una lengua universal compartida por todos los países?", a: ["Sí, es igual en todo el mundo", "No, las lenguas de señas varían entre comunidades y países", "Solo cambia el alfabeto"], correct: 1, why: "Las lenguas de señas tienen características propias y varían entre países y comunidades." },

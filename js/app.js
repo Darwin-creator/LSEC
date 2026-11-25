@@ -55,7 +55,7 @@ function resource(title, desc, url) {
 function alphabetPage() {
   return `${pageIntro("PRIMEROS PASOS", "El abecedario", "Selecciona cualquier ficha para ver el recorte de la lámina que compartiste. También puedes avanzar y retroceder entre letras.", "30 fichas visuales")}
 <div class="alphabet-layout"><section class="panel"><div class="section-head" style="margin-top:0"><div><h3>Explora las letras</h3><p>Pulsa una tarjeta para ver la imagen ampliada.</p></div></div><div class="letter-grid">${alphabet.map((l) => `<button class="letter-btn letter-tile ${selectedLetter === l ? "selected" : ""}" data-letter="${l}" aria-label="Ver letra ${l}"><img src="assets/images/alfabeto/mini/${l.toLowerCase()}.png" alt="" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${letterImage[l]}'"><span>${l.toLowerCase()}</span></button>`).join("")}</div></section>
-<section class="panel letter-detail"><span class="pill">FICHA DE LA LETRA</span><div class="big-letter">${selectedLetter.toLowerCase()}</div><h3>${["CH", "LL", "RR"].includes(selectedLetter) ? "Combinación " + selectedLetter : "Letra " + selectedLetter}</h3><div class="sign-image-wrap" data-letter-zoom title="Pulsa para ampliar"><img class="sign-image" src="${letterImage[selectedLetter]}" alt="Imagen de la seña ${selectedLetter} tomada de la lámina proporcionada" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div class="visual-placeholder" style="display:none">No se encontró la imagen: ${letterImage[selectedLetter]}</div><span class="zoom-badge" aria-hidden="true">⤢</span></div><p class="lead" style="font-size:11px;max-width:280px">Observa la posición de la mano y las flechas de movimiento que aparecen en la lámina.</p><button class="btn btn-primary zoom-btn" data-letter-zoom>⛶ Ampliar y pantalla completa</button><div class="letter-controls"><button class="btn btn-light" data-letter-prev ${selectedLetter === alphabet[0] ? "disabled" : ""}>← Anterior</button><button class="btn btn-light" data-letter-next ${selectedLetter === alphabet[alphabet.length - 1] ? "disabled" : ""}>Siguiente →</button></div><div class="button-row" style="justify-content:center"><a class="btn btn-primary" href="${OFFICIAL_DICT}" target="_blank" rel="noopener">Consultar diccionario LSEC ↗</a><button class="btn btn-light" data-go="videoteca">Ver videos</button></div></section></div>`;
+<section class="panel letter-detail"><span class="pill">FICHA DE LA LETRA</span><div class="big-letter">${selectedLetter.toLowerCase()}</div><h3>${["CH", "LL", "RR"].includes(selectedLetter) ? "Combinación " + selectedLetter : "Letra " + selectedLetter}</h3><div class="sign-image-wrap" data-letter-zoom title="Pulsa para ampliar"><img class="sign-image" src="${letterImage[selectedLetter]}" alt="Imagen de la seña ${selectedLetter} tomada de la lámina proporcionada" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div class="visual-placeholder" style="display:none">No se encontró la imagen: ${letterImage[selectedLetter]}</div><span class="zoom-badge" aria-hidden="true">⤢</span></div><p class="lead" style="font-size:11px;max-width:280px">Observa la posición de la mano y las flechas de movimiento que aparecen en la lámina.</p><button class="btn btn-primary zoom-btn" data-letter-zoom><svg class="lv-ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg> Ampliar y pantalla completa</button><div class="letter-controls"><button class="btn btn-light" data-letter-prev ${selectedLetter === alphabet[0] ? "disabled" : ""}>← Anterior</button><button class="btn btn-light" data-letter-next ${selectedLetter === alphabet[alphabet.length - 1] ? "disabled" : ""}>Siguiente →</button></div><div class="button-row" style="justify-content:center"><a class="btn btn-primary" href="${OFFICIAL_DICT}" target="_blank" rel="noopener">Consultar diccionario LSEC ↗</a><button class="btn btn-light" data-go="videoteca">Ver videos</button></div></section></div>`;
 }
 
 function extraVideoCard(v, i) {
@@ -221,7 +221,7 @@ const originalActivityQuestionBank = activityQuestionBank.slice();
   });
 })();
 
-// Bancos exclusivos de las actividades: exactamente 30 preguntas por modalidad.
+// Bancos exclusivos de las actividades: 30 preguntas originales por modalidad + las adicionales (100 en total).
 // Se conservan las preguntas originales y se seleccionan preguntas de los antiguos retos
 // de forma repartida entre sus categorías para completar las 30 de opción múltiple.
 const activitiesQuestionBanks = (() => {
@@ -244,9 +244,26 @@ const activitiesQuestionBanks = (() => {
     }
     if (!added) break;
   }
-  return {
+  const baseBanks = {
     vf,
     mc: [...baseMc, ...selectedChallengeMc].slice(0, 30)
+  };
+
+  // Preguntas adicionales (js/preguntas-actividades.js): se suman a las 30 originales
+  // de cada modalidad para llegar a 100. Si ese archivo no cargara, todo sigue con las 30.
+  const extra = (typeof extraActivityQuestions !== "undefined" && extraActivityQuestions) || { vf: [], mc: [] };
+  const merge = (base, more) => {
+    const seenText = new Set(base.map(item => item.q.trim().toLocaleLowerCase()));
+    const out = [...base];
+    more.forEach(item => {
+      const key = item.q.trim().toLocaleLowerCase();
+      if (!seenText.has(key)) { seenText.add(key); out.push(item); }
+    });
+    return out;
+  };
+  return {
+    vf: merge(baseBanks.vf, extra.vf),
+    mc: merge(baseBanks.mc, extra.mc)
   };
 })();
 
@@ -334,8 +351,8 @@ function activityCard({ mode, tone, kicker, title, text }) {
 
 function activityMenu() {
   const cards = [
-    { mode: "vf", tone: "green", kicker: "30 PREGUNTAS · 10 POR PARTIDA", title: "Verdadero o falso", text: "Practica con preguntas sobre LSEC, cultura sorda, comunicación, convivencia y accesibilidad." },
-    { mode: "mc", tone: "red", kicker: "30 PREGUNTAS · 10 POR PARTIDA", title: "Opción múltiple", text: "Responde preguntas con opciones que cambian de posición en cada partida." },
+    { mode: "vf", tone: "green", kicker: "100 PREGUNTAS · 10 POR PARTIDA", title: "Verdadero o falso", text: "Practica con preguntas sobre LSEC, cultura sorda, comunicación, convivencia y accesibilidad." },
+    { mode: "mc", tone: "red", kicker: "100 PREGUNTAS · 10 POR PARTIDA", title: "Opción múltiple", text: "Responde preguntas con opciones que cambian de posición en cada partida." },
     { mode: "guess", tone: "gold", kicker: "10 IMÁGENES ALEATORIAS", title: "Adivina la seña", text: "Observa diez imágenes del abecedario manual y elige entre cuatro respuestas mezcladas." }
   ];
   return `${pageIntro("PRACTICA LO APRENDIDO", "Actividades", "Elige una actividad y aprende mientras practicas. Cada partida presenta diez preguntas aleatorias y respuestas mezcladas.", "3 actividades")}
@@ -493,7 +510,9 @@ function closeModal() {
 function showTheory(index) {
   const all = getTheoryModules(), t = all[index];
   if (!t) return;
-  const prompts = [
+  // Cada lectura tiene sus propias preguntas (theoryPrompts en datos.js);
+  // si faltara alguna, se usan las preguntas generales de siempre.
+  const prompts = (typeof theoryPrompts !== "undefined" && theoryPrompts[index]) || [
     "¿Qué aprendiste sobre este tema? Comparte un ejemplo de cómo se relaciona con la vida escolar.",
     "¿Qué preguntas te quedan? ¿Qué fuente ecuatoriana podríamos consultar para comprobar la información?",
     "¿Cómo podemos aplicar este conocimiento para que el aula sea más accesible y respetuosa?"

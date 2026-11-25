@@ -41,8 +41,8 @@ Los scripts usan `defer` y deben cargarse en este orden: `datos.js` → `app.js`
 - Navegación entre secciones desde el menú lateral y las tarjetas de inicio.
 - Abecedario con 30 fichas (incluye CH, LL y RR), selección, vista ampliada y botones anterior/siguiente.
 - Videoteca con miniaturas, reproductores bajo demanda, buscador por tema y enlace alternativo a YouTube.
-- 30 módulos en «Aprende LSEC» que se abren en ventanas de lectura, con «Para conversar en clase» y actividad breve.
-- Actividades: tres juegos con ícono propio (Verdadero o falso, Opción múltiple y Adivina la seña). Cada partida sortea 10 al azar de un banco de 30 (en Adivina la seña, 10 de las 30 letras), mezcla las respuestas y evita repetir las de la partida anterior. Para cambiar el tamaño de la partida, edita `ACTIVITY_ROUND_SIZE` en `js/app.js`.
+- 30 módulos en «Aprende LSEC» que se abren en ventanas de lectura, con «Para conversar en clase» (3 preguntas propias por lectura, en `theoryPrompts` de `js/datos.js`) y actividad breve.
+- Actividades: tres juegos con ícono propio (Verdadero o falso, Opción múltiple y Adivina la seña). Cada partida sortea 10 al azar de un banco de 100 en Verdadero o falso y en Opción múltiple (en Adivina la seña, 10 de las 30 letras; las preguntas adicionales están en `js/preguntas-actividades.js`), mezcla las respuestas y evita repetir las de la partida anterior. Para cambiar el tamaño de la partida, edita `ACTIVITY_ROUND_SIZE` en `js/app.js`.
 - Cultura e inclusión (seis temas) y «El proyecto» (propósito, objetivos, dedicatoria y agradecimientos).
 - Glosario LSEC: las 50 páginas del PDF por secciones, con zoom y pantalla completa.
 - Buscador general, modo oscuro, modo clase, menú adaptable a celular e impresión.

@@ -4585,3 +4585,90 @@ html[data-theme="dark"] #app .activity-result-score { color: #91d9a8;}
   #app .activity-sign-image { min-height: 110px; margin: 8px auto 12px;}
   #app .activity-sign-image img { max-height: 170px;}
 }
+
+/* ==========================================================================
+   AJUSTES · Glosario (vista previa que se oculta) y Abecedario en modo oscuro
+   --------------------------------------------------------------------------
+   · .glo-autohide: cuando la página tiene zoom del navegador, la tira de
+     miniaturas se convierte en una capa dentro del visor. Queda oculta abajo
+     y se desliza hacia arriba solo cuando el puntero baja; al apartarlo, baja.
+   · Abecedario (modo oscuro): la ficha seleccionada recupera el recuadro verde
+     del modo claro, con borde y brillo dorado.
+   ========================================================================== */
+.glo-reader.glo-autohide .glo-stage > .glo-strip {
+  position: absolute;
+  left: 0;
+  right: var(--glo-sbw, 0px);
+  bottom: var(--glo-sbh, 0px);
+  z-index: 3;
+  margin: 0;
+  padding: 8px 10px 10px;
+  background: var(--glo-surface);
+  background: color-mix(in srgb, var(--glo-surface) 94%, transparent);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  border-top: 1px solid var(--line);
+  box-shadow: 0 -10px 26px rgba(0, 0, 0, .18);
+  transform: translateY(105%);
+  visibility: hidden;
+  pointer-events: none;
+  transition: transform .28s ease, visibility 0s linear .28s;
+}
+.glo-reader.glo-autohide.glo-strip-show .glo-stage > .glo-strip,
+.glo-reader.glo-autohide .glo-stage > .glo-strip:focus-within {
+  transform: translateY(0);
+  visibility: visible;
+  pointer-events: auto;
+  transition: transform .28s ease, visibility 0s;
+}
+.glo-reader.glo-autohide .glo-stage > .glo-strip[hidden] {
+  display: none;
+}
+.glo-reader.glo-autohide .glo-stage > .glo-strip .glo-strip-item {
+  width: 46px;
+}
+/* Pista discreta: indica que abajo hay una vista previa */
+.glo-reader.glo-autohide .glo-stage::after {
+  content: "▲ Páginas";
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--glo-sbh, 0px) + 6px);
+  transform: translateX(-50%);
+  z-index: 2;
+  padding: 2px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .3px;
+  color: #fff;
+  background: rgba(13, 91, 59, .82);
+  pointer-events: none;
+  opacity: .9;
+  transition: opacity .2s ease;
+}
+.glo-reader.glo-autohide.glo-strip-show .glo-stage::after,
+.glo-reader.glo-autohide.glo-no-strip .glo-stage::after {
+  opacity: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .glo-reader.glo-autohide .glo-stage > .glo-strip,
+  .glo-reader.glo-autohide.glo-strip-show .glo-stage > .glo-strip {
+    transition: none;
+  }
+}
+
+html[data-theme=dark] .letter-tile.selected,
+html[data-theme=dark] .letter-tile.selected:hover {
+  background: #1d5a3a;
+  border-color: var(--sa-gold);
+  color: #fff;
+  box-shadow: 0 0 0 3px rgba(224, 163, 26, .38), 0 8px 20px rgba(0, 0, 0, .45);
+}
+html[data-theme=dark] .letter-tile.selected img {
+  background: #fff;
+}
+html[data-theme=dark] .letter-tile.selected span {
+  background: var(--sa-green-mid);
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .35);
+}
