@@ -316,3 +316,45 @@ body {
     display: none;
   }
 }
+
+/* ==========================================================================
+   11 · AJUSTES FINOS EN TELÉFONO
+   ========================================================================== */
+
+/* Teléfono: sin «Modo clase» (el menú lateral queda oculto) y «Modo oscuro» con su texto */
+@media (max-width: 760px) {
+  .teacher-btn {
+    display: none;
+  }
+  .theme-toggle .theme-toggle-label {
+    display: inline;
+  }
+  .theme-toggle {
+    padding: 9px 14px;
+    white-space: nowrap;
+  }
+  .breadcrumb {
+    min-width: 0;
+  }
+  .breadcrumb > span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+/* Pantalla completa en teléfono (capa propia): márgenes de arriba y abajo iguales */
+.glo-reader.glo-pseudo {
+  padding-top: calc(18px + env(safe-area-inset-top, 0px));
+  padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  padding-left: calc(12px + env(safe-area-inset-left, 0px));
+  padding-right: calc(12px + env(safe-area-inset-right, 0px));
+  box-sizing: border-box;
+}
+@media (orientation: landscape) and (max-height: 520px) {
+  .glo-reader.glo-pseudo {
+    padding-top: calc(10px + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  }
+}

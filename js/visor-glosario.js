@@ -371,7 +371,16 @@
   /* ---------- Pantalla completa (nativa con respaldo para iPhone/iPad) ---------- */
   function isFull() { return state.pseudo || (fsEl() === el.reader); }
 
+  // En teléfono se usa el modo alterno (capa que cubre toda la pantalla): la pantalla completa nativa
+  // del navegador muestra siempre el aviso «Arrastra el dedo desde la parte superior…», que no se puede ocultar.
+  function isPhone() {
+    var coarse = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+    var sw = window.screen ? Math.min(window.screen.width, window.screen.height) : 9999;
+    return !!coarse && sw <= 600;
+  }
+
   function enterFull() {
+    if (isPhone()) { setPseudo(true); return; }
     var r = el.reader, req = r.requestFullscreen || r.webkitRequestFullscreen;
     if (req) {
       try {
