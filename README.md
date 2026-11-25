@@ -86,9 +86,12 @@ El contenido se genera con JavaScript. Si ves el menú pero el centro vacío:
 - Glosario: la página actual y las cercanas quedan guardadas en memoria y la tira de miniaturas ya no se reconstruye en cada paso.
 - Teléfono y tablet: el modo oscuro cambia al instante (sin animar todos los elementos), el salto arriba al cambiar de sección es inmediato y los botones responden sin espera de doble toque. En computadora se conserva el fundido del modo oscuro.
 - Glosario en teléfono y tablet: se muestra la versión liviana de cada página (carpeta `m/`) y, al acercar con zoom, se carga automáticamente la grande. En computadora siempre se usa la grande.
-- Modo sin conexión (`sw.js`): tras la primera visita, la plataforma abre al instante y funciona sin internet (las páginas del glosario se guardan al verlas; los videos de YouTube sí necesitan conexión). Solo se activa con https o localhost. **Si cambias cualquier archivo, sube el número de `VERSION` en `sw.js`** (por ejemplo `lsec-v2`) para que los teléfonos descarguen la versión nueva.
+- Modo sin conexión (`sw.js`): tras la primera visita, la plataforma abre al instante y funciona sin internet (las páginas del glosario se guardan al verlas; los videos de YouTube sí necesitan conexión). Solo se activa con https o localhost. **Si cambias cualquier archivo, sube el número de `VERSION` en `sw.js`** (por ejemplo `lsec-v3`) para que los teléfonos descarguen la versión nueva.
 - Botón de modo oscuro en teléfono: ya no se queda «presionado» después de tocarlo (los efectos de hover de ese botón ahora solo se aplican con mouse) y, en vertical, es un botón redondo de 44 × 44 px.
 - Efectos hover (`:hover`) en TODOS los botones, tarjetas y enlaces: ahora solo se aplican con mouse (`@media (hover: hover)`). En el teléfono ya no se quedan «pegados» después de tocar. En computadora se ven exactamente igual.
 
 ----------------------------------------------------------------------
-Algo importante para ti: si cambias cualquier archivo del proyecto, sube el número de VERSION en la primera líneas de sw.js (por ejemplo, de lsec-v2 a lsec-v2). Si no, los teléfonos que ya visitaron la página pueden seguir viendo imágenes viejas. Con los textos, el CSS y el JS no hay problema, porque se actualizan solos cuando hay internet. Está explicado en el README.
+Algo importante para ti: si cambias cualquier archivo del proyecto, sube el número de VERSION en la primera líneas de sw.js (por ejemplo, de lsec-v2 a lsec-v3). Si no, los teléfonos que ya visitaron la página pueden seguir viendo imágenes viejas. Con los textos, el CSS y el JS no hay problema, porque se actualizan solos cuando hay internet. Está explicado en el README.
+
+----------------------------------------------------------------------
+la pagina ya fue actualizada a lsec-v2
